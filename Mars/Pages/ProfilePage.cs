@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Threading;
 using Mars.Utilities;
-using NUnit.Framework;
 using OpenQA.Selenium;
 
 namespace Mars
@@ -10,14 +8,9 @@ namespace Mars
     {
         private readonly IWebDriver driver;
 
-        
-
 
         //page factory design pattern
-        IWebElement SignIn => driver.FindElement(By.XPath("//*[@id='home']/div/div/div[1]/div/a"));
-        IWebElement EmailAddress => driver.FindElement(By.XPath("/html/body/div[2]/div/div/div[1]/div/div[1]/input"));
-        IWebElement Password => driver.FindElement(By.XPath("/html/body/div[2]/div/div/div[1]/div/div[2]/input"));
-        IWebElement LoginButton => driver.FindElement(By.XPath("/html/body/div[2]/div/div/div[1]/div/div[4]"));
+
         IWebElement DescriptionText => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/div/div/div/h3"));
         IWebElement DescriptionIcon => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/div/div/div/h3/span/i"));
         IWebElement Description => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/div/div/form/div/div/div[2]/div[1]/textarea"));
@@ -42,39 +35,6 @@ namespace Mars
         public ProfilePage(IWebDriver driver)
         {
             this.driver = driver;
-        }
-
-
-
-        public void Login(string emailAddress,string password)
-        {
-            driver.Navigate().GoToUrl("http://localhost:5000");
-
-            //maximize browser
-            driver.Manage().Window.Maximize();
-            Wait.ElementExists(driver, "XPath", "//*[@id='home']/div/div/div[1]/div/a", 10);
-
-            //click sign in 
-            SignIn.Click();
-
-            try
-            {
-                //Enter email address
-                Console.WriteLine("Enter Email Address" + emailAddress);
-                EmailAddress.SendKeys(emailAddress);
-
-                //Enter password
-                Console.WriteLine("Enter Password" + password);
-                Password.SendKeys(password);
-
-                //Click Login
-                LoginButton.Click();
-            }
-            catch (Exception msg)
-            {
-                Assert.Fail("Test failed at SignIn page", msg.Message);
-            }
-            
         }
 
         public bool ValidateProfilePage()
@@ -176,7 +136,7 @@ namespace Mars
 
         public bool ValidateDescriptionSavedMessage(string message)
         {
-            Wait.ElementExists(driver, "XPath", "/html/body/div[1]/div", 30);
+            Wait.ElementExists(driver, "XPath", "/html/body/div[1]/div", 100);
 
             if (Message.Text == message)
             {

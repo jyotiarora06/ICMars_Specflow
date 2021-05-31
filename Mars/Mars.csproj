@@ -9,17 +9,20 @@
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
     <PackageReference Include="Selenium.Support" Version="3.141.0" />
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="90.0.4430.2400" />
-    <PackageReference Include="SpecFlow" Version="3.8.7" />
-    <PackageReference Include="SpecFlow.NUnit" Version="3.8.7" />
-    <PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.8.7" />
+    <PackageReference Include="SpecFlow" Version="3.8.14" />
+    <PackageReference Include="SpecFlow.NUnit" Version="3.8.14" />
+    <PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.8.14" />
     <PackageReference Include="Microsoft.NETCore.App" Version="2.2.8">
       <AllowExplicitVersion>true</AllowExplicitVersion>
     </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
     <PackageReference Include="NUnit" Version="3.13.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
     <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0" />
     <PackageReference Include="ExtentReports" Version="4.1.0" />
+    <PackageReference Include="ExcelDataReader" Version="3.6.0" />
+    <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
     <SpecFlowFeatureFiles Update="ProfilePage.feature">
@@ -27,8 +30,9 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>ProfilePage.feature.cs</LastGenOutput>
     </SpecFlowFeatureFiles>
-    <SpecFlowFeatureFiles Update="FeatureFiles\ProfilePage.feature">
-      <Visible>False</Visible>
+    <SpecFlowFeatureFiles Update="FeatureFiles\ServiceListingPage.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ServiceListingPage.feature.cs</LastGenOutput>
     </SpecFlowFeatureFiles>
   </ItemGroup>
   <ItemGroup>
@@ -37,5 +41,6 @@
     <Folder Include="Steps\" />
     <Folder Include="Utilities\" />
     <Folder Include="Hooks\" />
+    <Folder Include="Tests\" />
   </ItemGroup>
 </Project>

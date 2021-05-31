@@ -1,28 +1,26 @@
 ﻿using System;
+using Mars.Utilities;
 using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using TechTalk.SpecFlow;
 
 namespace Mars.Steps
 {
     [Binding]
-    public class ProfilePageSteps
+    public class ProfilePageSteps : Driver
     {
-        private readonly IWebDriver driver;
-        private ProfilePage profilePage;
+        private readonly ProfilePage profilePage;
+
+       
 
         //Create a Constructor
         public ProfilePageSteps()
         {
-            driver = new ChromeDriver();
             profilePage = new ProfilePage(driver);
         }
 
         [Given("I am at the Profile Page")]
         public void GivenIAmAtTheProfilePage()
         {
-            profilePage.Login("test.tester@gmail.com","123123");
             bool isProfilePage = profilePage.ValidateProfilePage();
             Console.WriteLine("I am at the Profile Page");
             Assert.IsTrue(isProfilePage);
@@ -35,7 +33,7 @@ namespace Mars.Steps
             Console.WriteLine("I click description icon");
         }
 
-        [When("I enter description (.*)")]
+        [When("I enter description '(.*)'")]
         public void WhenIEnterDescription(String description)
         {
             profilePage.EnterDescription(description);
@@ -64,7 +62,7 @@ namespace Mars.Steps
             Console.WriteLine("I click Add New in skills");
         }
 
-        [When("I enter language (.*)")]
+        [When("I enter language '(.*)'")]
         public void WhenIEnterLanguage(String language )
         {
             profilePage.EnterLanguage(language);
@@ -99,7 +97,7 @@ namespace Mars.Steps
             Console.WriteLine("I click skills tab");
         }
 
-        [When("I enter skill (.*)")]
+        [When("I enter skill '(.*)'")]
         public void WhenIEnterSkill(String skill)
         {
             
@@ -114,7 +112,7 @@ namespace Mars.Steps
             Console.WriteLine("I choose skill level");
         }
         
-        [Then("Description message (.*) should be displayed")]
+        [Then("Description message '(.*)' should be displayed")]
         public void ThenDescriptionSavedMessageDisplayed(string message)
         {
             bool IsDescriptionSavedMessage = profilePage.ValidateDescriptionSavedMessage(message);
@@ -122,7 +120,7 @@ namespace Mars.Steps
             Assert.IsTrue(IsDescriptionSavedMessage);
         }
         
-        [Then("Description (.*) should be displayed on the profile page")]
+        [Then("Description '(.*)' should be displayed on the profile page")]
         public void ThenSavedDescriptionDisplayedOnTheProfilePage(string description)
         {
             bool IsSavedDescription = profilePage.ValidateSavedDescription(description);
@@ -130,7 +128,7 @@ namespace Mars.Steps
             Assert.IsTrue(IsSavedDescription);
         }
         
-        [Then("Language message (.*) should be displayed")]
+        [Then("Language message '(.*)' should be displayed")]
         public void ThenLanguageSavedMessageDisplayed(String message)
         {
             bool IsLanguageSavedMessage = profilePage.ValidateLanguageSavedMessage(message);
@@ -139,7 +137,7 @@ namespace Mars.Steps
         }
 
 
-        [Then("Language (.*) should be displayed on the profile page")]
+        [Then("Language '(.*)' should be displayed on the profile page")]
         public void ThenAddedLanguageDisplayedOnTheProfilePage(String language)
         {
             bool IsAddedLanguage = profilePage.ValidateAddedLanguage(language);
@@ -147,7 +145,7 @@ namespace Mars.Steps
             Assert.IsTrue(IsAddedLanguage);
         }
         
-        [Then("Skill message (.*) should be displayed")]
+        [Then("Skill message '(.*)' should be displayed")]
         public void ThenSkillSavedMessageDisplayed(string message)
         {
             bool IsSkillSavedMessage = profilePage.ValidateSkillSavedMessage(message);
@@ -155,7 +153,7 @@ namespace Mars.Steps
             Assert.IsTrue(IsSkillSavedMessage);
         }
 
-        [Then("Skill (.*) should be displayed on the profile page")]
+        [Then("Skill '(.*)' should be displayed on the profile page")]
         public void ThenAddedSkillDisplayedOnTheProfilePage(string skill)
         {
             bool IsAddedSkill = profilePage.ValidateAddedSkill(skill);
@@ -163,12 +161,7 @@ namespace Mars.Steps
             Assert.IsTrue(IsAddedSkill);
         }
         
-        [AfterScenario]
-        public void RunAfterEveryTest()
-        {
-            // close the driver
-            driver.Close();
-            driver.Quit();
-        }
+        
+        
     }
 }
