@@ -7,9 +7,6 @@ using AventStack.ExtentReports;
 using ExcelDataReader;
 using OpenQA.Selenium;
 
-
-
-
 namespace Mars.Utilities
 {
     public class CommonMethods
@@ -23,6 +20,8 @@ namespace Mars.Utilities
 
         }
 
+
+        //Excel Reader
         public class ExcelLibHelper
         {
             

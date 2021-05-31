@@ -12,9 +12,5 @@ namespace Mars.Utilities
         //Test DataFilePath
         public static string DataFilePath = "/Users/jyotimadan/Documents/Projects/CSharpProject/Mars/DataSheet/Mars.xlsx";
 
-
-        //Test DataSheet Name
-        public static string DataSheetName = "Credentials";
-
     }
 }

@@ -36,11 +36,8 @@
     </SpecFlowFeatureFiles>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="FeatureFiles\" />
     <Folder Include="Pages\" />
-    <Folder Include="Steps\" />
     <Folder Include="Utilities\" />
-    <Folder Include="Hooks\" />
     <Folder Include="Tests\" />
   </ItemGroup>
 </Project>
