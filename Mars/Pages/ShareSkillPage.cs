@@ -1,16 +1,26 @@
 ﻿using System;
+
 using Mars.Utilities;
 using NUnit.Framework;
 using OpenQA.Selenium;
+
 using static Mars.Utilities.CommonMethods;
 
 namespace Mars.Pages
 {
-    public class ShareSkillPage
+    public class ShareSkillPage 
     {
         private readonly IWebDriver driver;
 
+        //Create a Constructor
+        public ShareSkillPage(IWebDriver driver)
+        {
+            
+            this.driver = driver;
+        }
+
         //page factory design pattern
+
         IWebElement ShareSkill => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[1]/div/div[2]/a"));
         IWebElement Title => driver.FindElement(By.XPath("//*[@id='service-listing-section']/div[2]/div/form/div[1]/div/div[2]/div/div[1]/input"));
         IWebElement Description => driver.FindElement(By.XPath("//*[@id='service-listing-section']/div[2]/div/form/div[2]/div/div[2]/div[1]/textarea"));
@@ -41,7 +51,8 @@ namespace Mars.Pages
         IWebElement SavedTitle => driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/div[1]/table/tbody/tr[1]/td[3]"));
         IWebElement SavedDescription => driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/div[1]/table/tbody/tr[1]/td[4]"));
         IWebElement SavedCategory => driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/div[1]/table/tbody/tr[1]/td[2]"));
-
+        IWebElement FileInput => driver.FindElement(By.XPath("//*[@id='selectFile']"));
+        
         //reading data from file
         private string title = ExcelLibHelper.ReadData(1, "Title");
         private string description = ExcelLibHelper.ReadData(1, "Description");
@@ -56,11 +67,7 @@ namespace Mars.Pages
         private int addDaysToStartDate = Convert.ToInt32(ExcelLibHelper.ReadData(1, "AddDaysInCurrentDateToStart"));
         private int addDaysToEndDate = Convert.ToInt32(ExcelLibHelper.ReadData(1, "AddDaysInCurrentDateToEnd"));
 
-        //Create a Constructor
-        public ShareSkillPage(IWebDriver driver)
-        {
-            this.driver = driver;
-        }
+       
 
         //creating a service listing
         public void CreateService()
@@ -77,6 +84,7 @@ namespace Mars.Pages
             EnterStartDate(addDaysToStartDate);
             EnterEndDate(addDaysToStartDate,addDaysToEndDate);
             SelectSkillTrade(skillTrade, skillExchangeTag, creditServiceCharge);
+            UploadWorkSamples();
             SelectActive(acive);
             ClickSave();
             bool isServiceSaved =ValidateServiceSavedSuccessfully();
@@ -259,6 +267,12 @@ namespace Mars.Pages
             }
         }
 
+        public void UploadWorkSamples()
+        {
+            FileInput.SendKeys(ConstantHelpers.WorkSamplePath);
+        }
+ 
+
         public void SelectActive(string active)
         {
             if (acive == "Active")
@@ -285,7 +299,7 @@ namespace Mars.Pages
 
         public bool ValidateServiceSavedSuccessfully()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='listing-management-section']/div[2]/div[1]/div[1]/table/tbody/tr[1]/td[3]", 500);
+            Wait.ElementExists(driver, "XPath", "//*[@id='listing-management-section']/div[2]/div[1]/div[1]/table/tbody/tr[1]/td[3]", 50);
             if (SavedTitle.Text == title && SavedDescription.Text ==  description && SavedCategory.Text == category)
             {
                 //Assert.Pass("user is able to create Service successfully, test passed");

@@ -12,5 +12,8 @@ namespace Mars.Utilities
         //Test DataFilePath
         public static string DataFilePath = "/Users/jyotimadan/Documents/Projects/CSharpProject/Mars/DataSheet/Mars.xlsx";
 
+        //Test WorkSamplePath
+        public static string WorkSamplePath = "/Users/jyotimadan/Documents/Projects/CSharpProject/Mars/papaya.jpeg";
+
     }
 }

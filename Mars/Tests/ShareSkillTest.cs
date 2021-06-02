@@ -27,6 +27,7 @@ namespace Mars.Tests
             {
                 test = extent.CreateTest(TestContext.CurrentContext.Test.Name).Info("Test Started");
                 test.Log(Status.Info, "CreateService method is called");
+
                 //ShareSkill Page objects
                 ShareSkillPage shareSkillObj = new ShareSkillPage(driver);
                 shareSkillObj.CreateService();
