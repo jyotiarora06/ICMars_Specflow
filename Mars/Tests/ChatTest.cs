@@ -8,33 +8,33 @@ using NUnit.Framework;
 namespace Mars.Tests
 {
     [TestFixture]
-    class ShareSkillTest : Driver
+    class ChatTest : Driver
     {
         private CommonMethods commonMethods;
 
-        public ShareSkillTest()
+        public ChatTest()
         {
             commonMethods = new CommonMethods();
         }
 
         [Test]
-        public void CreateServiceListingTest()
+        public void ChatWithSellerTest()
         {
 
             try
             {
                 test = extent.CreateTest(TestContext.CurrentContext.Test.Name).Info("Test Started");
-                test.Log(Status.Info, "CreateServiceListing method is called");
+                test.Log(Status.Info, "ChatWithSeller method is called");
 
-                //ShareSkill Page objects
-                ShareSkillPage shareSkillObj = new ShareSkillPage(driver);
-                shareSkillObj.CreateServiceListing();
-                test.Log(Status.Pass, "Service is listed");
+                //Chat Page objects
+                ChatPage chatPageObj = new ChatPage(driver);
+                chatPageObj.ChatWithSeller();
+                test.Log(Status.Pass, "Chat is tested");
                 test.Pass("Test Passed");
             }
             catch (Exception e)
             {
-                
+
                 var mediaEntity = commonMethods.CaptureScreenshotAndReturnModel(TestContext.CurrentContext.Test.Name.Trim());
                 test.Log(Status.Fail, e.StackTrace.ToString());
                 test.Fail("Test Failed", mediaEntity);
@@ -45,5 +45,5 @@ namespace Mars.Tests
     }
 
 }
-    
+
 

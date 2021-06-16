@@ -4,7 +4,6 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System.Text;
 using static Mars.Utilities.CommonMethods;
-using Mars.Pages;
 using AventStack.ExtentReports;
 using AventStack.ExtentReports.Reporter;
 
@@ -13,9 +12,7 @@ namespace Mars.Utilities
     public class Driver
     {
         //Initialize the browser
-
         public static IWebDriver driver;
-        public static SignInPage SignIn;
         public static ExtentReports extent;
         public static ExtentHtmlReporter hTMLReporter;
         public static ExtentTest test;
@@ -36,14 +33,17 @@ namespace Mars.Utilities
             driver.Manage().Window.Maximize();
 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+          
             ExcelLibHelper.PopulateInCollection(ConstantHelpers.DataFilePath, "Credentials");
+            ExcelLibHelper.PopulateInCollection(ConstantHelpers.DataFilePath, "ProfileTestData");
             ExcelLibHelper.PopulateInCollection(ConstantHelpers.DataFilePath, "ShareSkillTestData");
             ExcelLibHelper.PopulateInCollection(ConstantHelpers.DataFilePath, "ManageListingsTestData");
-
-            //call the SignIn class
-            SignIn = new SignInPage(driver);
-            SignIn.Login(CommonMethods.ExcelLibHelper.ReadData(1, "EmailAddress"), CommonMethods.ExcelLibHelper.ReadData(1, "Password"));
-
+            ExcelLibHelper.PopulateInCollection(ConstantHelpers.DataFilePath, "SearchTestData");
+            ExcelLibHelper.PopulateInCollection(ConstantHelpers.DataFilePath, "ChatTestData");
+            ExcelLibHelper.PopulateInCollection(ConstantHelpers.DataFilePath, "ServiceDetailTestData");
+            ExcelLibHelper.PopulateInCollection(ConstantHelpers.DataFilePath, "NotificationTestData");
+            ExcelLibHelper.PopulateInCollection(ConstantHelpers.DataFilePath, "ManageRequestsTestData");
+            NavigateUrl(); 
         }
     
         public static string BaseUrl

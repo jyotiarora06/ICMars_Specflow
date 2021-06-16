@@ -1,9 +1,7 @@
 ﻿using System;
-
 using Mars.Utilities;
 using NUnit.Framework;
 using OpenQA.Selenium;
-
 using static Mars.Utilities.CommonMethods;
 
 namespace Mars.Pages
@@ -11,16 +9,18 @@ namespace Mars.Pages
     public class ShareSkillPage 
     {
         private readonly IWebDriver driver;
+        private SignInPage signIn;
 
         //Create a Constructor
         public ShareSkillPage(IWebDriver driver)
         {
-            
             this.driver = driver;
+            signIn = new SignInPage(driver);
+
         }
 
-        //page factory design pattern
 
+        //page factory design pattern
         IWebElement ShareSkill => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[1]/div/div[2]/a"));
         IWebElement Title => driver.FindElement(By.XPath("//*[@id='service-listing-section']/div[2]/div/form/div[1]/div/div[2]/div/div[1]/input"));
         IWebElement Description => driver.FindElement(By.XPath("//*[@id='service-listing-section']/div[2]/div/form/div[2]/div/div[2]/div[1]/textarea"));
@@ -70,8 +70,9 @@ namespace Mars.Pages
        
 
         //creating a service listing
-        public void CreateService()
+        public void CreateServiceListing()
         {
+            signIn.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
             ClickShareSkill();
             ValidateYouAreAtShareSkillPage();
             EnterTitle(title);
@@ -88,12 +89,12 @@ namespace Mars.Pages
             SelectActive(acive);
             ClickSave();
             bool isServiceSaved =ValidateServiceSavedSuccessfully();
-            Assert.IsTrue(isServiceSaved);
+            
         }
 
         public void ClickShareSkill()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='account-profile-section']/div/section[1]/div/div[2]/a", 200);
+            Wait.ElementExists(driver, "XPath", "//*[@id='account-profile-section']/div/section[1]/div/div[2]/a", 500);
             //click Share Skill 
             ShareSkill.Click();
 
@@ -299,7 +300,7 @@ namespace Mars.Pages
 
         public bool ValidateServiceSavedSuccessfully()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='listing-management-section']/div[2]/div[1]/div[1]/table/tbody/tr[1]/td[3]", 50);
+            Wait.ElementExists(driver, "XPath", "//*[@id='listing-management-section']/div[2]/div[1]/div[1]/table/tbody/tr[1]/td[3]", 10);
             if (SavedTitle.Text == title && SavedDescription.Text ==  description && SavedCategory.Text == category)
             {
                 //Assert.Pass("user is able to create Service successfully, test passed");

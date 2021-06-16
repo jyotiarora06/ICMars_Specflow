@@ -10,6 +10,7 @@ namespace Mars.Pages
     {
         private IWebDriver driver;
         private readonly ShareSkillPage shareSkill;
+        private SignInPage signIn;
         private bool isProfilePage;
 
         //page factory design pattern
@@ -43,7 +44,8 @@ namespace Mars.Pages
         public ManageListingsPage(IWebDriver driver)
         {
             this.driver = driver;
-            shareSkill = new ShareSkillPage(driver);   
+            shareSkill = new ShareSkillPage(driver);
+            signIn = new SignInPage(driver);
         }
 
 
@@ -62,9 +64,9 @@ namespace Mars.Pages
         }
 
         //updating service listing details
-        public void EditService()
+        public void EditServiceListing()
         {
-
+            signIn.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
             isProfilePage = ExistsElement();
             if (isProfilePage == true)
             {
@@ -90,8 +92,9 @@ namespace Mars.Pages
         }
 
         //deleting service listing
-        public void DeleteService()
+        public void DeleteServiceListing()
         {
+            signIn.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
             isProfilePage = ExistsElement();
             if (isProfilePage == true)
             {

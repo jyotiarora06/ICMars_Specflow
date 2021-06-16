@@ -1,236 +1,157 @@
 ﻿using System;
 using Mars.Utilities;
+using NUnit.Framework;
 using OpenQA.Selenium;
+using static Mars.Utilities.CommonMethods;
 
-namespace Mars
+namespace Mars.Pages
 {
-    class ProfilePage
+    public class ProfilePage
     {
         private readonly IWebDriver driver;
-
+        private SignInPage signInPageObj;
+        private ProfileDescription profileDescription;
 
         //page factory design pattern
 
-        IWebElement DescriptionText => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/div/div/div/h3"));
-        IWebElement DescriptionIcon => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/div/div/div/h3/span/i"));
-        IWebElement Description => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/div/div/form/div/div/div[2]/div[1]/textarea"));
-        IWebElement Save => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/div/div/form/div/div/div[2]/button"));
-        IWebElement SavedDescription => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/div/div/div/span"));
-        IWebElement AddNewLanguage => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/thead/tr/th[3]/div"));
-        IWebElement AddNewSkill => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/thead/tr/th[3]/div"));
-        IWebElement Language => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/div/div[1]/input"));
-        IWebElement LanguageLevel => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/div/div[2]/select/option[2]"));
-        IWebElement AddLanguage => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/div/div[3]/input[1]"));
-        IWebElement AddSkill => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/div/span/input[1]"));                                                        
-        IWebElement SkillsTab => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[1]/a[2]"));
-        IWebElement Skill => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/div/div[1]/input"));
-        IWebElement SkillLevel => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/div/div[2]/select/option[2]"));                                                        
-        IWebElement AddedLanguage => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/tbody/tr/td[1]"));
-        IWebElement AddedSkill => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody/tr/td[1]"));
+        IWebElement AvailabilityIcon => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[2]/div/div/div/div/div/div[3]/div/div[2]/div/span/i"));                                                                                          
+        IWebElement PartTime => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[2]/div/div/div/div/div/div[3]/div/div[2]/div/span/select/option[2]"));
+        IWebElement FullTime => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[2]/div/div/div/div/div/div[3]/div/div[2]/div/span/select/option[3]"));
+        IWebElement HoursIcon => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[2]/div/div/div/div/div/div[3]/div/div[3]/div/span/i"));
+        IWebElement LessThan30Hours => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[2]/div/div/div/div/div/div[3]/div/div[3]/div/span/select/option[2]"));
+        IWebElement MoreThan30Hours => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[2]/div/div/div/div/div/div[3]/div/div[3]/div/span/select/option[3]"));
+        IWebElement AsNeeded => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[2]/div/div/div/div/div/div[3]/div/div[3]/div/span/select/option[4]"));
+        IWebElement EarnTargetIcon => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[2]/div/div/div/div/div/div[3]/div/div[4]/div/span/i"));
+        IWebElement LessThan500 => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[2]/div/div/div/div/div/div[3]/div/div[4]/div/span/select/option[2]"));
+        IWebElement Between500And1000 => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[2]/div/div/div/div/div/div[3]/div/div[4]/div/span/select/option[3]"));
+        IWebElement MoreThan1000 => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[2]/div/div/div/div/div/div[3]/div/div[4]/div/span/select/option[4]"));
         IWebElement Message => driver.FindElement(By.XPath("/html/body/div[1]/div"));
-        //IWebElement RemoveLanguage => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/tbody/tr/td[3]/span[2]/i"));
-        //IWebElement RemoveSkill => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody/tr/td[3]/span[2]/i"));
 
         //Create a Constructor
         public ProfilePage(IWebDriver driver)
         {
             this.driver = driver;
+            signInPageObj = new SignInPage(driver);
+            profileDescription = new ProfileDescription(driver);
         }
 
-        public bool ValidateProfilePage()
+        public void Availability()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/div/div/div/h3", 20);
-            return DescriptionText.Displayed;
+            signInPageObj.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
+            profileDescription.ValidateProfilePage();
+            ClickAvailability();
+            SelectAvailability();
+            bool isAvailability = ValidateSuccessMessage(ExcelLibHelper.ReadData(1, "AvailabilityMessage"));
+            Assert.IsTrue(isAvailability);
         }
 
-        public void ClickDescriptionIcon()
+        public void Hours()
         {
-            //click description icon
-            DescriptionIcon.Click();
+            signInPageObj.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
+            profileDescription.ValidateProfilePage();
+            ClickHours();
+            SelectHours(ExcelLibHelper.ReadData(1, "Hours"));
+            bool isHours = ValidateSuccessMessage(ExcelLibHelper.ReadData(1, "HoursMessage"));
+            Assert.IsTrue(isHours);
         }
 
-        public void EnterDescription(string description)
+        public void EarnTarget()
         {
-           //enter description
-            Description.Clear();
-            Description.SendKeys(description);
+            signInPageObj.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
+            profileDescription.ValidateProfilePage();
+            ClickEarnTarget();
+            SelectEarnTarget(ExcelLibHelper.ReadData(1, "EarnTarget"));
+            bool isEarnTarget = ValidateSuccessMessage(ExcelLibHelper.ReadData(1, "EarnTargetMessage"));
+            Assert.IsTrue(isEarnTarget);
         }
 
-        public void ClickSave()
+        public void ClickAvailability()
         {
-            //click save
-            Save.Click();
-         
+            AvailabilityIcon.Click();
         }
 
-        /*
-        public void DeleteLanguage()
+        public void SelectAvailability()
         {
-            //click delete icon
-            RemoveLanguage.Click();
+            if (ExcelLibHelper.ReadData(1, "Availability") == "Part Time")
+            {
+                PartTime.Click();
+            }
+            else
+            {
+                FullTime.Click();
+            }
+        }
+
+        public void ClickHours()
+        {
+            HoursIcon.Click();
+        }
+
+        public void SelectHours(string hours)
+        {
+            switch (hours)
+            {
+                case "Less than 30hours a week":
+
+                    LessThan30Hours.Click();
+                    break;
+
+                case "More than 30hours a week":
+
+                    MoreThan30Hours.Click();
+                    break;
+
+                default:
+
+                    AsNeeded.Click();
+                    break;
+            }
 
         }
 
-        public void DeleteSkill()
+        public void ClickEarnTarget()
         {
-            //click delete icon
-            RemoveSkill.Click();
-
-        }
-        */
-        public void ClickAddNewLanguage()
-        {
-            //click add new for language
-            AddNewLanguage.Click();
+            EarnTargetIcon.Click();
         }
 
-        public void ClickAddNewSkill()
+        public void SelectEarnTarget(string earnTarget)
         {
-            //click add new for skill
-            AddNewSkill.Click();
+            switch (earnTarget)
+            {
+                case "Less than $500 per month":
+
+                    LessThan500.Click();
+                    break;
+
+                case "Between $500 and $1000 per month":
+
+                    Between500And1000.Click();
+                    break;
+
+                default:
+
+                    MoreThan1000.Click();
+                    break;
+            }
         }
 
-        public void EnterLanguage(string language)
-        {
-            // enter language
-            Language.SendKeys(language);
-        }
+        public bool ValidateSuccessMessage(string message)
 
-        public void ChooseLanguageLevel()
         {
-           //choose language lavel
-            LanguageLevel.Click();
-        }
-
-        public void ClickAddLanguage()
-        {
-            //click add for language
-            AddLanguage.Click();
-        }
-
-        public void ClickAddSkill()
-        {
-            //click add for skill
-            AddSkill.Click();
-        }
-
-        public void ClickSkills()
-        {
-            //click skills tab
-            SkillsTab.Click();
-            Wait.ElementExists(driver, "XPath", "//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/thead/tr/th[3]/div", 10);                                       
-        }
-
-        public void EnterSkill(string skill)
-        {
-            //enter skill
-            Skill.SendKeys(skill);
-        }
-
-        public void ChooseSkillLevel()
-        {
-            //choose skill level
-            SkillLevel.Click();
-            
-        }
-
-        public bool ValidateDescriptionSavedMessage(string message)
-        {
-            Wait.ElementExists(driver, "XPath", "/html/body/div[1]/div", 100);
-
+            Wait.ElementExists(driver, "XPath", "/html/body/div[1]/div", 10);
             if (Message.Text == message)
             {
-                Console.WriteLine("Success message is displayed, test passed");
+                
                 return true;
             }
             else
             {
-                Console.WriteLine("Success message is not displayed, test failed");
+                
                 return false;
             }
-        }
-        
-        public bool ValidateSavedDescription(string description)
-        {
-            Wait.ElementExists(driver, "XPath", "//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/div/div/div/span", 40);
 
-            //validate description is saved
-            if (SavedDescription.Text == description)
-            {
-                Console.WriteLine("Description is saved, test passed");
-                return true;
-            }
-            else
-            {
-                Console.WriteLine("Description is not saved, test failed");
-                return false;
-            }
         }
 
-        public bool ValidateLanguageSavedMessage(string message)
-        {
-            Wait.ElementExists(driver, "XPath", "/html/body/div[1]/div", 30);
-
-            if (Message.Text == message)
-            {
-                Console.WriteLine("Success message is displayed, test passed");
-                return true;
-            }
-            else
-            {
-                Console.WriteLine("Success message is not displayed, test failed");
-                return false;
-            }
-        }
-
-        public bool ValidateAddedLanguage(string language)
-        {
-            Wait.ElementExists(driver, "XPath", "//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/tbody/tr/td[1]", 30);
-
-            //validate language is added
-            if (AddedLanguage.Text == language)
-            {   
-                Console.WriteLine("Language is added, test passed");
-                return true;
-            }
-            else
-            {
-                Console.WriteLine("Language is not added, test failed");
-                return false;
-            }
-        }
-
-        public bool ValidateSkillSavedMessage(string message)
-        {
-            Wait.ElementExists(driver, "XPath", "/html/body/div[1]/div", 40);
-
-            if (Message.Text == message)
-            {
-                Console.WriteLine("Success message is displayed, test passed");
-                return true;
-            }
-            else
-            {
-                Console.WriteLine("Success message is not displayed, test failed");
-                return false;
-            }
-        }
-
-        public bool ValidateAddedSkill(string skill)
-        {
-            Wait.ElementExists(driver, "XPath", "//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[3]/div/div[2]/div/table/tbody/tr/td[1]", 30);
-
-            //validate skill is added
-            if (AddedSkill.Text == skill)
-            {
-                Console.WriteLine("Skill is added, test passed");
-                return true;
-            }
-            else
-            {
-                Console.WriteLine("Skill is not added, test failed");
-                return false;
-            }
-        }
     }
 }
+

@@ -2,6 +2,7 @@
 using Mars.Utilities;
 using NUnit.Framework;
 using OpenQA.Selenium;
+using static Mars.Utilities.CommonMethods;
 
 namespace Mars.Pages
 {
@@ -15,7 +16,7 @@ namespace Mars.Pages
         IWebElement Password => driver.FindElement(By.XPath("/html/body/div[2]/div/div/div[1]/div/div[2]/input"));
         IWebElement LoginButton => driver.FindElement(By.XPath("/html/body/div[2]/div/div/div[1]/div/div[4]"));
         IWebElement SignOut => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/div[1]/div[2]/div/a[2]/button"));
-        
+
         //Create a Constructor
         public SignInPage(IWebDriver driver)
         {
@@ -25,28 +26,30 @@ namespace Mars.Pages
 
         public void ClickSignIn()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='home']/div/div/div[1]/div/a", 10);
+            Wait.ElementExists(driver, "XPath", "//*[@id='home']/div/div/div[1]/div/a", 500);
             //click sign in 
             SignIn.Click();
 
         }
 
-        public bool ValidateYouAreAtLoginPage()
+        public void ValidateYouAreAtLoginPage()
         {
-            return LoginButton.Displayed;
+            Wait.ElementExists(driver, "XPath", "/html/body/div[2]/div/div/div[1]/div/div[4]", 100);
+            bool isLoginPage= LoginButton.Displayed;
+            Assert.IsTrue(isLoginPage);
         }
 
-        public void EnterEmailAddressAndPassword(string emailAddress, string password)
+        public void EnterEmailAddressAndPassword(string emailAddressValue, string PasswordValue)
         {
             try
             {
+                Wait.ElementExists(driver, "XPath", "/html/body/div[2]/div/div/div[1]/div/div[1]/input", 200);
+
                 //Enter email address
-                Console.WriteLine("Enter Email Address" + emailAddress);
-                EmailAddress.SendKeys(emailAddress);
+                EmailAddress.SendKeys(emailAddressValue);
 
                 //Enter password
-                Console.WriteLine("Enter Password" + password);
-                Password.SendKeys(password);
+                Password.SendKeys(PasswordValue);
 
             }
             catch (Exception msg)
@@ -66,21 +69,20 @@ namespace Mars.Pages
 
         public bool ValidateYouAreLoggedInSuccessfully()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='account-profile-section']/div/div[1]/div[2]/div/a[2]/button", 10);
+            Wait.ElementExists(driver, "XPath", "//*[@id='account-profile-section']/div/div[1]/div[2]/div/a[2]/button", 1000);
             return SignOut.Displayed;
         }
 
 
-        public void Login(string emailAddressValue, string passwordValue)
+        public void Login(string emailAddress,string password)
         {
-            Driver.NavigateUrl();
             ClickSignIn();
             ValidateYouAreAtLoginPage();
-            EnterEmailAddressAndPassword(emailAddressValue, passwordValue);
+            EnterEmailAddressAndPassword(emailAddress,password);
             ClickLoginButton();
-            ValidateYouAreLoggedInSuccessfully();
+            bool isLoggedIn = ValidateYouAreLoggedInSuccessfully();
+            Assert.IsTrue(isLoggedIn);
         }
-
 
     }
 }
