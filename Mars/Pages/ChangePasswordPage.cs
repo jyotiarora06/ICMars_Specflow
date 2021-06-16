@@ -27,6 +27,7 @@ namespace Mars.Pages
             signIn = new SignInPage(driver);
         }
 
+        //changing password
         public void ChangePassword()
         {
             signIn.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
@@ -39,11 +40,17 @@ namespace Mars.Pages
 
         }
 
+       
         public void ClickChangePassword()
         {
             Wait.ElementExists(driver, "XPath", "//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/div/div/div/h3", 5000);
+
+            //click Hi username
             Username.Click();
+
             Wait.ElementExists(driver, "XPath", "//*[@id='account-profile-section']/div/div[1]/div[2]/div/span/div/a[2]", 5000);
+
+            //click Change Password menu item
             ChangePasswordItem.Click();
 
         }
@@ -90,6 +97,7 @@ namespace Mars.Pages
         {
             Wait.ElementExists(driver, "XPath", "/html/body/div[1]/div", 10000);
 
+            //validate password changed message is displayed
             if (Message.Text == ExcelLibHelper.ReadData(1, "PasswordChangeMessage"))
             {
                 //Console.WriteLine("Success message is displayed, test passed");

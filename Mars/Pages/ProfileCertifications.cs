@@ -33,6 +33,7 @@ namespace Mars
             profileDescription = new ProfileDescription(driver);
         }
 
+        //adding a certification
         public void Certification()
         {
             signIn.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));

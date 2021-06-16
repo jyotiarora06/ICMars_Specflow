@@ -34,30 +34,33 @@ namespace Mars.Pages
 
         public void ClickChat()
         {
+            //click chat button
             ChatButton.Click();
         }
 
         public void ClickRequest()
         {
+            //click request button
             Request.Click();
         }
 
         public void EnterMessageToSeller()
         {
-
+            //enter message in message text box
             MessageTextBox.SendKeys(ExcelLibHelper.ReadData(1, "MessageToSeller"));
 
         }
 
         public void ClickYes()
         {
+            //click yes on confirm popup
             Yes.Click();
         }
 
         public bool ValidateRequestSent()
         {
             Wait.ElementExists(driver, "XPath", "/html/body/div[1]/div", 1000);
-
+            //validate request is sent
             if (Message.Text == ExcelLibHelper.ReadData(1, "SentRequestMessage"))
             {
                 return true;

@@ -35,6 +35,7 @@ namespace Mars.Pages
             profileDescription = new ProfileDescription(driver);
         }
 
+        //selecting availability
         public void Availability()
         {
             signInPageObj.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
@@ -45,6 +46,7 @@ namespace Mars.Pages
             Assert.IsTrue(isAvailability);
         }
 
+        //selecting hours
         public void Hours()
         {
             signInPageObj.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
@@ -55,6 +57,7 @@ namespace Mars.Pages
             Assert.IsTrue(isHours);
         }
 
+        //selecting earn target
         public void EarnTarget()
         {
             signInPageObj.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
@@ -67,6 +70,7 @@ namespace Mars.Pages
 
         public void ClickAvailability()
         {
+            //click availability icon
             AvailabilityIcon.Click();
         }
 
@@ -84,6 +88,7 @@ namespace Mars.Pages
 
         public void ClickHours()
         {
+            // click hours icon
             HoursIcon.Click();
         }
 
@@ -111,6 +116,7 @@ namespace Mars.Pages
 
         public void ClickEarnTarget()
         {
+            //click earn target
             EarnTargetIcon.Click();
         }
 
@@ -139,6 +145,7 @@ namespace Mars.Pages
 
         {
             Wait.ElementExists(driver, "XPath", "/html/body/div[1]/div", 10);
+            //validate updation message
             if (Message.Text == message)
             {
                 

@@ -28,6 +28,7 @@ namespace Mars
             signIn = new SignInPage(driver);
         }
 
+        //adding profile description
         public void Description()
         {
             signIn.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));

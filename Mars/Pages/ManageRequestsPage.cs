@@ -31,6 +31,7 @@ namespace Mars.Pages
             signIn = new SignInPage(driver);
         }
 
+        //accepting received service request
         public void AcceptReceivedRequest()
         {
             signIn.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
@@ -43,6 +44,7 @@ namespace Mars.Pages
 
         }
 
+        //declining received service request
         public void DeclineReceivedRequest()
         {
             signIn.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
@@ -55,6 +57,7 @@ namespace Mars.Pages
 
         }
 
+        //withdrawing sent service request
         public void WithdrawSentRequest()
         {
             signIn.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
@@ -67,6 +70,7 @@ namespace Mars.Pages
             Assert.IsTrue(isStatusWithdrawn);
         }
 
+        //completing sent service request
         public void CompleteSentRequest()
         {
             signIn.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
@@ -81,6 +85,7 @@ namespace Mars.Pages
 
         public void ClickManageRequests()
         {
+            //click manage requests
             Wait.ElementExists(driver, "XPath", "//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/thead/tr/th[3]/div", 500);
             ManageRequests.Click();
             Thread.Sleep(500);
@@ -89,29 +94,34 @@ namespace Mars.Pages
 
         public void ClickReceivedRequests()
         {
+            //click received requests
             ReceivedRequests.Click();
         }
 
         public void ClickSentRequests()
         {
+            //click sent requests
             SentRequests.Click();
         }
 
         public void ClickAccept()
         {
             Wait.ElementExists(driver, "XPath", "//*[@id='received-request-section']/div[2]/div[1]/table/tbody/tr[1]/td[8]/button[1]", 100);
+            //click accept
             Accept.Click();
         }
 
         public void ClickDecline()
         {
             Wait.ElementExists(driver, "XPath", "//*[@id='received-request-section']/div[2]/div[1]/table/tbody/tr[1]/td[8]/button[2]", 100);
+            //click decline
             Decline.Click();
         }
 
         public void ClickActionButton()
         {
             Wait.ElementExists(driver, "XPath", "//*[@id='sent-request-section']/div[2]/div[1]/table/tbody/tr/td[8]/button", 100);
+            //Click withdraw or complete actions
             ActionButton.Click();
         }
 

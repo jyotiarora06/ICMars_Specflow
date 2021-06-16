@@ -31,6 +31,7 @@ namespace Mars.Pages
             SignIn = new SignInPage(driver);
         }
 
+        // performing actions on notifications
         public void Notifications()
         {
             SignIn.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
@@ -54,21 +55,24 @@ namespace Mars.Pages
         public void ClickDashboard()
         {
             Wait.ElementExists(driver, "XPath", "/html/body/div/div/section[1]/div/a[1]", 10);
+            //click dashboard
             Dashboard.Click();
         }
 
         public void ClickLoadMore()
         {
-           
+           //load more notifications
             LoadMore.Click();
         }
 
         public void ClickShowLess()
         {
             Wait.ElementExists(driver, "XPath", "//*[@id='notification-section']/div[2]/div/div/div[3]/div[2]/span/span/div/div/div[1]/center/a", 20);
+            //show less notifications
             ShowLess.Click();
         }
 
+        //selecting a notification
         public void SelectNotification()
         {
             if (!NotificationCheckBox.Selected)
@@ -78,6 +82,7 @@ namespace Mars.Pages
            
         }
 
+        //unselecting a notification
         public void UnselectNotification()
         {
             if (NotificationCheckBox.Selected)
@@ -86,22 +91,26 @@ namespace Mars.Pages
             }
         }
 
+        //selecting all notifications
         public void ClickSelectAll()
         {
             SelectAll.Click();
         }
 
+        //unselecting all notifications
         public void ClickUnselectAll()
         {
             UnselectAll.Click();
         }
 
+        //mark selected notification as read
         public void ClickMarkSelectionAsRead()
         {
             SelectNotification();
             MarkSelectionAsRead.Click();
         }
 
+        //deleting selected notification
         public void ClickDeleteSelection()
         {
             SelectNotification();
@@ -118,7 +127,7 @@ namespace Mars.Pages
         public bool ValidateMessage(string message)
         {
             Wait.ElementExists(driver, "XPath", "/html/body/div/div", 100);
-
+            //validate notification is updated
             if (Message.Text == message)
             {
                 return true;

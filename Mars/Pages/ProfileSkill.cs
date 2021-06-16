@@ -31,6 +31,7 @@ namespace Mars
             profileDescription = new ProfileDescription(driver);
         }
 
+        // adding a skill
         public void Skills()
         {
             signIn.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));

@@ -25,6 +25,7 @@ namespace Mars.Pages
             serviceDetailPageObj = new ServiceDetailPage(driver);
         }
 
+        //sending message to seller
         public void ChatWithSeller()
         {
             searchPageObj.SearchSkillsByAllCategories();
@@ -40,12 +41,13 @@ namespace Mars.Pages
 
         public void EnterChatMessage()
         {
-
+            //enter message in chat text box
             ChatTextBox.SendKeys(ExcelLibHelper.ReadData(1, "ChatMessage"));
 
         }
         public void ClickSend()
         {
+            //click send
             Send.Click();
         }
 
@@ -59,7 +61,7 @@ namespace Mars.Pages
         public bool ValidateMessageSent()
         {
             Wait.ElementExists(driver, "XPath", "//*[text()='Hello I want to exchange my skill']", 200);
-
+            //validate message is sent to seller
             if (SentMessage.Text == ExcelLibHelper.ReadData(1, "ChatMessage"))
             {
                 return true;

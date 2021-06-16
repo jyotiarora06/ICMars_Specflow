@@ -88,7 +88,7 @@ namespace Mars.Pages
         public bool ValidateSuccessMessage()
         {
             Wait.ElementExists(driver, "XPath", "/html/body/div[1]/div", 10000);
-
+            // validate registration message
             if (Message.Text == ExcelLibHelper.ReadData(1, "RegistrationMessage"))
             {
                 //Console.WriteLine("Success message is displayed, test passed");
@@ -101,9 +101,9 @@ namespace Mars.Pages
             }
         }
 
+        // registering a user
         public void Registration()
         {
-            
             ClickJoin();
             ValidateYouAreAtRegistrationPage();
             EnterData();

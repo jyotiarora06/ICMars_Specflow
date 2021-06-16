@@ -73,7 +73,7 @@ namespace Mars.Pages
             return SignOut.Displayed;
         }
 
-
+        //login into the application
         public void Login(string emailAddress,string password)
         {
             ClickSignIn();
