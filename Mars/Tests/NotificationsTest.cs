@@ -18,7 +18,8 @@ namespace Mars.Tests
         }
 
         [Test]
-        public void NotificationActionsTest()
+        [TestCaseSource(typeof(Driver), "BrowserToRunWith")]
+        public void NotificationActionsTest(string browserName)
         {
 
             try
@@ -26,6 +27,7 @@ namespace Mars.Tests
                 test = extent.CreateTest(TestContext.CurrentContext.Test.Name).Info("Test Started");
                 test.Log(Status.Info, "Notifications method is called");
 
+                Setup(browserName);
                 //Notifications Page objects
                 NotificationsPage notificationsPageObj = new NotificationsPage(driver);
                 notificationsPageObj.Notifications();

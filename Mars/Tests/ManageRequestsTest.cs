@@ -18,7 +18,8 @@ namespace Mars.Tests
         }
 
         [Test]
-        public void AcceptReceivedRequestest()
+        [TestCaseSource(typeof(Driver), "BrowserToRunWith")]
+        public void AcceptReceivedRequestest(string browserName)
         {
             try
             {
@@ -26,6 +27,7 @@ namespace Mars.Tests
                 test = extent.CreateTest(TestContext.CurrentContext.Test.Name).Info("Test Started");
                 test.Log(Status.Info, "AcceptReceivedRequest method is called");
 
+                Setup(browserName);
                 //ManageRequests Page Objects
                 ManageRequestsPage manageRequestsObj = new ManageRequestsPage(driver);
                 manageRequestsObj.AcceptReceivedRequest();
@@ -44,13 +46,15 @@ namespace Mars.Tests
         }
 
         [Test]
-        public void DeclineReceivedRequest()
+        [TestCaseSource(typeof(Driver), "BrowserToRunWith")]
+        public void DeclineReceivedRequest(string browserName)
         {
             try
             {
                 test = extent.CreateTest(TestContext.CurrentContext.Test.Name).Info("Test Started");
                 test.Log(Status.Info, "DeclineReceivedRequest method is called");
 
+                Setup(browserName);
                 //ManageRequests Page Objects
                 ManageRequestsPage manageRequestsObj = new ManageRequestsPage(driver);
                 manageRequestsObj.DeclineReceivedRequest();
@@ -69,7 +73,8 @@ namespace Mars.Tests
         }
 
         [Test]
-        public void WithdrawSentRequest()
+        [TestCaseSource(typeof(Driver), "BrowserToRunWith")]
+        public void WithdrawSentRequest(string browserName)
         {
             try
             {
@@ -77,6 +82,7 @@ namespace Mars.Tests
                 test = extent.CreateTest(TestContext.CurrentContext.Test.Name).Info("Test Started");
                 test.Log(Status.Info, "WithdrawSentRequest method is called");
 
+                Setup(browserName);
                 //ManageRequests Page Objects
                 ManageRequestsPage manageRequestsObj = new ManageRequestsPage(driver);
                 manageRequestsObj.WithdrawSentRequest();
@@ -95,13 +101,15 @@ namespace Mars.Tests
         }
 
         [Test]
-        public void CompleteSentRequest()
+        [TestCaseSource(typeof(Driver), "BrowserToRunWith")]
+        public void CompleteSentRequest(string browserName)
         {
             try
             {
                 test = extent.CreateTest(TestContext.CurrentContext.Test.Name).Info("Test Started");
                 test.Log(Status.Info, "CompleteSentRequest method is called");
 
+                Setup(browserName);
                 //ManageRequests Page Objects
                 ManageRequestsPage manageRequestsObj = new ManageRequestsPage(driver);
                 manageRequestsObj.CompleteSentRequest();

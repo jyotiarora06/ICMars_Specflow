@@ -19,7 +19,8 @@ namespace Mars.Tests
         }
 
         [Test]
-        public void EditServiceListingTest()
+        [TestCaseSource(typeof(Driver), "BrowserToRunWith")]
+        public void EditServiceListingTest(string browserName)
         {
             try
             {
@@ -27,6 +28,7 @@ namespace Mars.Tests
                 test = extent.CreateTest(TestContext.CurrentContext.Test.Name).Info("Test Started");
                 test.Log(Status.Info, "EditServiceListing method is called");
 
+                Setup(browserName);
                 // ManageListings Page Objects
                 ManageListingsPage manageListingsObj = new ManageListingsPage(driver);
                 manageListingsObj.EditServiceListing();
@@ -45,13 +47,15 @@ namespace Mars.Tests
         }
 
         [Test]
-        public void RemoveServiceListingTest()
+        [TestCaseSource(typeof(Driver), "BrowserToRunWith")]
+        public void RemoveServiceListingTest(string browserName)
         {
             try
             {
                 test = extent.CreateTest(TestContext.CurrentContext.Test.Name).Info("Test Started");
                 test.Log(Status.Info, "DeleteServiceListing method is called");
 
+                Setup(browserName);
                 // ManageListings Page Objects
                 ManageListingsPage manageListingsObj = new ManageListingsPage(driver);
                 manageListingsObj.DeleteServiceListing();

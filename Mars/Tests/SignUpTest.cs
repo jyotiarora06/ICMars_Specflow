@@ -18,7 +18,8 @@ namespace Mars.Tests
         }
 
         [Test]
-        public void RegistrationTest()
+        [TestCaseSource(typeof(Driver), "BrowserToRunWith")]
+        public void RegistrationTest(string browserName)
         {
 
             try
@@ -26,6 +27,7 @@ namespace Mars.Tests
                 test = extent.CreateTest(TestContext.CurrentContext.Test.Name).Info("Test Started");
                 test.Log(Status.Info, "Registration method is called");
 
+                Setup(browserName);
                 //Registration Page objects
                 RegistrationPage registrationPageObj = new RegistrationPage(driver);
                 registrationPageObj.Registration();
@@ -44,7 +46,8 @@ namespace Mars.Tests
         }
 
         [Test]
-        public void LoginTest()
+        [TestCaseSource(typeof(Driver), "BrowserToRunWith")]
+        public void LoginTest(string browserName)
         {
 
             try
@@ -52,6 +55,7 @@ namespace Mars.Tests
                 test = extent.CreateTest(TestContext.CurrentContext.Test.Name).Info("Test Started");
                 test.Log(Status.Info, "login method is called");
 
+                Setup(browserName);
                 //SignInPage objects
                 SignInPage signInPageObj = new SignInPage(driver);
                 signInPageObj.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
@@ -70,7 +74,8 @@ namespace Mars.Tests
         }
 
         [Test]
-        public void ChangePasswordTest()
+        [TestCaseSource(typeof(Driver), "BrowserToRunWith")]
+        public void ChangePasswordTest(string browserName)
         {
 
             try
@@ -78,6 +83,7 @@ namespace Mars.Tests
                 test = extent.CreateTest(TestContext.CurrentContext.Test.Name).Info("Test Started");
                 test.Log(Status.Info, "ChangePassword method is called");
 
+                Setup(browserName);
                 // ChangePasswordPage objects
                 ChangePasswordPage changePasswordPageObj = new ChangePasswordPage(driver);
                 changePasswordPageObj.ChangePassword();

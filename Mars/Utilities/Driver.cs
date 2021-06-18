@@ -6,6 +6,11 @@ using System.Text;
 using static Mars.Utilities.CommonMethods;
 using AventStack.ExtentReports;
 using AventStack.ExtentReports.Reporter;
+using System.Collections.Generic;
+using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Safari;
+using OpenQA.Selenium.Firefox;
+using Mars.Config;
 
 namespace Mars.Utilities
 {
@@ -17,7 +22,6 @@ namespace Mars.Utilities
         public static ExtentHtmlReporter hTMLReporter;
         public static ExtentTest test;
 
-
         [OneTimeSetUp]
         public void Initialize()
         {
@@ -26,15 +30,9 @@ namespace Mars.Utilities
             extent = new ExtentReports();
             extent.AttachReporter(hTMLReporter);
 
-            //Defining the browser
-            driver = new ChromeDriver();
-           
-            //Maximise the window
-            driver.Manage().Window.Maximize();
-
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-          
             ExcelLibHelper.PopulateInCollection(ConstantHelpers.DataFilePath, "Credentials");
+            ExcelLibHelper.PopulateInCollection(ConstantHelpers.DataFilePath, "ChangePasswordTestData");
             ExcelLibHelper.PopulateInCollection(ConstantHelpers.DataFilePath, "ProfileTestData");
             ExcelLibHelper.PopulateInCollection(ConstantHelpers.DataFilePath, "ShareSkillTestData");
             ExcelLibHelper.PopulateInCollection(ConstantHelpers.DataFilePath, "ManageListingsTestData");
@@ -43,9 +41,27 @@ namespace Mars.Utilities
             ExcelLibHelper.PopulateInCollection(ConstantHelpers.DataFilePath, "ServiceDetailTestData");
             ExcelLibHelper.PopulateInCollection(ConstantHelpers.DataFilePath, "NotificationTestData");
             ExcelLibHelper.PopulateInCollection(ConstantHelpers.DataFilePath, "ManageRequestsTestData");
-            NavigateUrl(); 
         }
-    
+
+        public void Setup(string browserName)
+        {
+
+            //Defining the browser
+            if (browserName.Equals("chrome"))
+                driver = new ChromeDriver();
+            else if (browserName.Equals("ie"))
+                driver = new InternetExplorerDriver();
+            else if (browserName.Equals("safari"))
+                driver = new SafariDriver();
+            else
+                driver = new FirefoxDriver();
+
+            //Maximise the window
+            driver.Manage().Window.Maximize();
+
+            NavigateUrl();
+        }
+
         public static string BaseUrl
         {
             get { return ConstantHelpers.Url; }
@@ -57,7 +73,16 @@ namespace Mars.Utilities
             driver.Navigate().GoToUrl(BaseUrl);
         }
 
-        
+        public static IEnumerable <string> BrowserToRunWith()
+        {
+            string[] browsers = AutomationSettings.browsersToRunWith.Split(',');
+            foreach (String b in browsers)
+            {
+                yield return b;
+            }
+
+        }
+
         [OneTimeTearDown]
         public void FinalSteps()
         {

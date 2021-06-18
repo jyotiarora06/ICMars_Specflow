@@ -27,7 +27,7 @@ namespace Mars.Pages
 
         public void ValidateYouAreAtServiceDetailPage()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='service-detail-section']/div[2]/div/div[2]/div[2]/div[1]/div/div[1]/div/a", 10);
+            Wait.ElementExists(driver, "XPath", "//*[@id='service-detail-section']/div[2]/div/div[2]/div[2]/div[1]/div/div[1]/div/a", 100);
             bool isServicePage = ChatButton.Displayed;
             Assert.IsTrue(isServicePage);
         }

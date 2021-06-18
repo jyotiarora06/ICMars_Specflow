@@ -73,6 +73,8 @@ namespace Mars.Pages
 
         public void ClickSearchedSkill()
         {
+            Wait.ElementExists(driver, "XPath", "//*[@id='service-search-section']/div[2]/div/section/div/div[2]/div/div[2]/div/div/div/div[1]/a[2]/p", 20);
+
             //Click search result
             SearchedSkill.Click();
         }

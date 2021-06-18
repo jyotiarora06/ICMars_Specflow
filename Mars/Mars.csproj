@@ -23,6 +23,8 @@
     <PackageReference Include="ExcelDataReader" Version="3.6.0" />
     <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
+    <PackageReference Include="Selenium.WebDriver.GeckoDriver" Version="0.29.1" />
+    <PackageReference Include="Selenium.Firefox.WebDriver" Version="0.27.0" />
   </ItemGroup>
   <ItemGroup>
     <SpecFlowFeatureFiles Update="ProfilePage.feature">
@@ -39,5 +41,20 @@
     <Folder Include="Pages\" />
     <Folder Include="Utilities\" />
     <Folder Include="Tests\" />
+    <Folder Include="Config\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Config\AutomationSettings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AutomationSettings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="AutomationSettings.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Config\AutomationSettings.Designer.cs">
+      <DependentUpon>AutomationSettings.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

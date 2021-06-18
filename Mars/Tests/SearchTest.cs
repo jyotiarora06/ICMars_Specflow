@@ -20,7 +20,8 @@ namespace Mars.Tests
         }
 
         [Test]
-        public void SearchSkillsByAllCategoriesTest()
+        [TestCaseSource(typeof(Driver), "BrowserToRunWith")]
+        public void SearchSkillsByAllCategoriesTest(string browserName)
         {
 
             try
@@ -28,6 +29,7 @@ namespace Mars.Tests
                 test = extent.CreateTest(TestContext.CurrentContext.Test.Name).Info("Test Started");
                 test.Log(Status.Info, "SearchSkillsByAllCategories method is called");
 
+                Setup(browserName);
                 //Search Page Objects
                 SearchPage searchPageObj = new SearchPage(driver);
                 searchPageObj.SearchSkillsByAllCategories();
@@ -45,7 +47,8 @@ namespace Mars.Tests
 
         }
         [Test]
-        public void SearchSkillsByFiltersTest()
+        [TestCaseSource(typeof(Driver), "BrowserToRunWith")]
+        public void SearchSkillsByFiltersTest(string browserName)
         {
 
             try
@@ -53,6 +56,7 @@ namespace Mars.Tests
                 test = extent.CreateTest(TestContext.CurrentContext.Test.Name).Info("Test Started");
                 test.Log(Status.Info, "SearchSkillsByFilters method is called");
 
+                Setup(browserName);
                 //Search Page Objects
                 SearchPage searchPageObj = new SearchPage(driver);
                 searchPageObj.SearchSkillsByFilters();

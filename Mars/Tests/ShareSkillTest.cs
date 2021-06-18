@@ -18,7 +18,8 @@ namespace Mars.Tests
         }
 
         [Test]
-        public void CreateServiceListingTest()
+        [TestCaseSource(typeof(Driver), "BrowserToRunWith")]
+        public void CreateServiceListingTest(string browserName)
         {
 
             try
@@ -26,6 +27,7 @@ namespace Mars.Tests
                 test = extent.CreateTest(TestContext.CurrentContext.Test.Name).Info("Test Started");
                 test.Log(Status.Info, "CreateServiceListing method is called");
 
+                Setup(browserName);
                 //ShareSkill Page objects
                 ShareSkillPage shareSkillObj = new ShareSkillPage(driver);
                 shareSkillObj.CreateServiceListing();

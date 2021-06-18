@@ -17,15 +17,18 @@ namespace Mars.Tests
             commonMethods = new CommonMethods();
         }
 
+       
         [Test]
-        public void ChatWithSellerTest()
+        [TestCaseSource(typeof(Driver), "BrowserToRunWith")]
+        public void ChatWithSellerTest(string browserName)
         {
-
+   
             try
             {
                 test = extent.CreateTest(TestContext.CurrentContext.Test.Name).Info("Test Started");
                 test.Log(Status.Info, "ChatWithSeller method is called");
 
+                Setup(browserName);
                 //Chat Page objects
                 ChatPage chatPageObj = new ChatPage(driver);
                 chatPageObj.ChatWithSeller();
