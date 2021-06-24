@@ -40,10 +40,10 @@ namespace Mars.Pages
 
         }
 
-        public void ValidateYouAreAtRegistrationPage()
+        public bool ValidateYouAreAtRegistrationPage()
         {
-            bool isJoinPage = JoinButton.Displayed;
-            Assert.IsTrue(isJoinPage);
+            return JoinButton.Displayed;
+            
         }
 
         public void EnterData()
@@ -105,7 +105,8 @@ namespace Mars.Pages
         public void Registration()
         {
             ClickJoin();
-            ValidateYouAreAtRegistrationPage();
+            bool isJoinPage = ValidateYouAreAtRegistrationPage();
+            Assert.IsTrue(isJoinPage);
             EnterData();
             ClickAgreeTermsAndConditions();
             ClickJoinButton();

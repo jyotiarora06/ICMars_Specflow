@@ -42,11 +42,11 @@ namespace Mars
             Assert.IsTrue(isDescription);
         }
 
-        public void ValidateProfilePage()
+        public bool ValidateProfilePage()
         {
             Wait.ElementExists(driver, "XPath", "//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/div/div/div/h3", 20);
-            bool isProfilePage = DescriptionText.Displayed;
-            Assert.IsTrue(isProfilePage);
+            return  DescriptionText.Displayed;
+           
         }
 
         public void ClickDescriptionIcon()

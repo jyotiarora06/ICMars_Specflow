@@ -18,11 +18,14 @@ namespace Mars.Pages
         IWebElement ReceivedRequests => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[1]/div/div[1]/div/a[1]"));
         IWebElement SentRequestsHeading => driver.FindElement(By.XPath("//*[@id='sent-request-section']/div[2]/h2"));
         IWebElement ReceivedRequestsHeading => driver.FindElement(By.XPath("//*[@id='received-request-section']/div[2]/h2"));
-        IWebElement ActionButton => driver.FindElement(By.XPath("//*[@id='sent-request-section']/div[2]/div[1]/table/tbody/tr/td[8]/button"));
+        IWebElement Withdraw => driver.FindElement(By.XPath("//*[@id='sent-request-section']/div[2]/div[1]/table/tbody/tr[1]/td[8]/button"));
+        IWebElement Completed => driver.FindElement(By.XPath("//*[@id='sent-request-section']/div[2]/div[1]/table/tbody/tr[2]/td[8]/button"));
         IWebElement Accept => driver.FindElement(By.XPath("//*[@id='received-request-section']/div[2]/div[1]/table/tbody/tr[1]/td[8]/button[1]"));
-        IWebElement Decline => driver.FindElement(By.XPath("//*[@id='received-request-section']/div[2]/div[1]/table/tbody/tr[1]/td[8]/button[2]"));
-        IWebElement SentRequestStatus => driver.FindElement(By.XPath("//*[@id='sent-request-section']/div[2]/div[1]/table/tbody/tr/td[5]"));
-        IWebElement ReceivedRequestStatus => driver.FindElement(By.XPath("//*[@id='received-request-section']/div[2]/div[1]/table/tbody/tr[1]/td[5]"));
+        IWebElement Decline => driver.FindElement(By.XPath("//*[@id='received-request-section']/div[2]/div[1]/table/tbody/tr[2]/td[8]/button[2]"));
+        IWebElement WithdrawnRequestStatus => driver.FindElement(By.XPath("//*[@id='sent-request-section']/div[2]/div[1]/table/tbody/tr[1]/td[5]"));
+        IWebElement CompletedRequestStatus => driver.FindElement(By.XPath("//*[@id='sent-request-section']/div[2]/div[1]/table/tbody/tr[2]/td[5]"));
+        IWebElement AcceptedRequestStatus => driver.FindElement(By.XPath("//*[@id='received-request-section']/div[2]/div[1]/table/tbody/tr[1]/td[5]"));
+        IWebElement DeclinedRequestStatus => driver.FindElement(By.XPath("//*[@id='received-request-section']/div[2]/div[1]/table/tbody/tr[2]/td[5]"));
 
         //Create a Constructor
         public ManageRequestsPage(IWebDriver driver)
@@ -37,9 +40,10 @@ namespace Mars.Pages
             signIn.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
             ClickManageRequests();
             ClickReceivedRequests();
-            ValidateYouAreAtReceivedRequestsPage();
+            bool isReceivedRequestsPage = ValidateYouAreAtReceivedRequestsPage();
+            Assert.IsTrue(isReceivedRequestsPage); 
             ClickAccept();
-            bool isStatusAccepted = ValidateReceivedRequestStatus(ExcelLibHelper.ReadData(1, "AcceptReceivedRequest"));
+            bool isStatusAccepted = ValidateAcceptedRequestStatus();
             Assert.IsTrue(isStatusAccepted);
 
         }
@@ -50,9 +54,10 @@ namespace Mars.Pages
             signIn.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
             ClickManageRequests();
             ClickReceivedRequests();
-            ValidateYouAreAtReceivedRequestsPage();
+            bool isReceivedRequestsPage = ValidateYouAreAtReceivedRequestsPage();
+            Assert.IsTrue(isReceivedRequestsPage);
             ClickDecline();
-            bool isStatusDeclined = ValidateReceivedRequestStatus(ExcelLibHelper.ReadData(1, "DeclineReceivedRequest"));
+            bool isStatusDeclined = ValidateDeclinedRequestStatus();
             Assert.IsTrue(isStatusDeclined);
 
         }
@@ -63,10 +68,11 @@ namespace Mars.Pages
             signIn.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
             ClickManageRequests();
             ClickSentRequests();
-            ValidateYouAreAtSentRequestsPage();
+            bool isSentRequestsPage = ValidateYouAreAtSentRequestsPage();
+            Assert.IsTrue(isSentRequestsPage); 
             //Click Withdraw
-            ClickActionButton();
-            bool isStatusWithdrawn = ValidateSentRequestStatus(ExcelLibHelper.ReadData(1, "WithdrawSentRequest"));
+            ClickWithdraw();
+            bool isStatusWithdrawn = ValidateWithdrawnRequestStatus();
             Assert.IsTrue(isStatusWithdrawn);
         }
 
@@ -76,10 +82,11 @@ namespace Mars.Pages
             signIn.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
             ClickManageRequests();
             ClickSentRequests();
-            ValidateYouAreAtSentRequestsPage();
+            bool isSentRequestsPage = ValidateYouAreAtSentRequestsPage();
+            Assert.IsTrue(isSentRequestsPage);
             //Click Completed
-            ClickActionButton();
-            bool isStatusCompleted = ValidateSentRequestStatus(ExcelLibHelper.ReadData(1, "CompleteSentRequest"));
+            ClickCompleted();
+            bool isStatusCompleted = ValidateCompletedRequestStatus();
             Assert.IsTrue(isStatusCompleted);
         }
 
@@ -106,45 +113,50 @@ namespace Mars.Pages
 
         public void ClickAccept()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='received-request-section']/div[2]/div[1]/table/tbody/tr[1]/td[8]/button[1]", 100);
+            Wait.ElementExists(driver, "XPath", "//*[@id='received-request-section']/div[2]/div[1]/table/tbody/tr[1]/td[8]/button[1]", 50);
             //click accept
             Accept.Click();
         }
 
         public void ClickDecline()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='received-request-section']/div[2]/div[1]/table/tbody/tr[1]/td[8]/button[2]", 100);
+            Wait.ElementExists(driver, "XPath", "//*[@id='received-request-section']/div[2]/div[1]/table/tbody/tr[2]/td[8]/button[2]", 50);
             //click decline
             Decline.Click();
         }
 
-        public void ClickActionButton()
+        public void ClickWithdraw()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='sent-request-section']/div[2]/div[1]/table/tbody/tr/td[8]/button", 100);
-            //Click withdraw or complete actions
-            ActionButton.Click();
+            Wait.ElementExists(driver, "XPath", "//*[@id='sent-request-section']/div[2]/div[1]/table/tbody/tr[1]/td[8]/button", 50);
+            //Click withdraw 
+            Withdraw.Click();
         }
 
-        public void ValidateYouAreAtSentRequestsPage()
+        public void ClickCompleted()
+        {
+            Wait.ElementExists(driver, "XPath", "//*[@id='sent-request-section']/div[2]/div[1]/table/tbody/tr[2]/td[8]/button", 50);
+            //Click completed 
+            Completed.Click();
+        }
+
+        public bool ValidateYouAreAtSentRequestsPage()
         {
             Wait.ElementExists(driver, "XPath", "//*[@id='sent-request-section']/div[2]/h2", 500);
-            bool isSentRequestsPage = SentRequestsHeading.Displayed;
-            Assert.IsTrue(isSentRequestsPage);
+            return SentRequestsHeading.Displayed;
         }
 
 
-        public void ValidateYouAreAtReceivedRequestsPage()
+        public bool ValidateYouAreAtReceivedRequestsPage()
         {
             Wait.ElementExists(driver, "XPath", "//*[@id='received-request-section']/div[2]/h2", 500);
-            bool isReceivedRequestsPage = ReceivedRequestsHeading.Displayed;
-            Assert.IsTrue(isReceivedRequestsPage);
+            return ReceivedRequestsHeading.Displayed;
         }
 
-        public bool ValidateReceivedRequestStatus(string status)
+        public bool ValidateAcceptedRequestStatus()
         {
             Wait.ElementExists(driver, "XPath", "//*[@id='received-request-section']/div[2]/div[1]/table/tbody/tr[1]/td[5]", 200);
            
-            if (ReceivedRequestStatus.Text == status)
+            if (AcceptedRequestStatus.Text == ExcelLibHelper.ReadData(1, "AcceptReceivedRequest"))
             {
                 return true;
             }
@@ -155,11 +167,41 @@ namespace Mars.Pages
 
         }
 
-        public bool ValidateSentRequestStatus(string status)
+        public bool ValidateDeclinedRequestStatus()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='sent-request-section']/div[2]/div[1]/table/tbody/tr/td[5]", 200);
+            Wait.ElementExists(driver, "XPath", "//*[@id='received-request-section']/div[2]/div[1]/table/tbody/tr[2]/td[5]", 200);
 
-            if (SentRequestStatus.Text == status)
+            if (DeclinedRequestStatus.Text == ExcelLibHelper.ReadData(1, "DeclineReceivedRequest"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        public bool ValidateWithdrawnRequestStatus()
+        {
+            Wait.ElementExists(driver, "XPath", "//*[@id='sent-request-section']/div[2]/div[1]/table/tbody/tr[1]/td[5]", 200);
+
+            if (WithdrawnRequestStatus.Text == ExcelLibHelper.ReadData(1, "WithdrawSentRequest"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        public bool ValidateCompletedRequestStatus()
+        {
+            Wait.ElementExists(driver, "XPath", "//*[@id='sent-request-section']/div[2]/div[1]/table/tbody/tr[2]/td[5]", 200);
+
+            if (CompletedRequestStatus.Text == ExcelLibHelper.ReadData(1, "CompleteSentRequest"))
             {
                 return true;
             }

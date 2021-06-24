@@ -74,7 +74,16 @@ namespace Mars.Pages
         {
             signIn.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
             ClickShareSkill();
-            ValidateYouAreAtShareSkillPage();
+            bool isShareSkillPage = ValidateYouAreAtShareSkillPage();
+            Assert.IsTrue(isShareSkillPage);
+            EnterData();
+            ClickSave();
+            bool isServiceSaved = ValidateServiceSavedSuccessfully();
+            Assert.IsTrue(isServiceSaved);
+        }
+
+        public void EnterData()
+        {
             EnterTitle(title);
             EnterDescription(description);
             SelectCategory(category);
@@ -83,13 +92,10 @@ namespace Mars.Pages
             SelectServiceType(serviceType);
             SelectLocationType(locationType);
             EnterStartDate(addDaysToStartDate);
-            EnterEndDate(addDaysToStartDate,addDaysToEndDate);
+            EnterEndDate(addDaysToStartDate, addDaysToEndDate);
             SelectSkillTrade(skillTrade, skillExchangeTag, creditServiceCharge);
             UploadWorkSamples();
             SelectActive(acive);
-            ClickSave();
-            bool isServiceSaved =ValidateServiceSavedSuccessfully();
-            
         }
 
         public void ClickShareSkill()
@@ -100,11 +106,11 @@ namespace Mars.Pages
 
         }
 
-        public void ValidateYouAreAtShareSkillPage()
+        public bool ValidateYouAreAtShareSkillPage()
         {
             Wait.ElementExists(driver, "XPath", "//*[@id='service-listing-section']/div[2]/div/form/div[1]/div/div[2]/div/div[1]/input", 200);
-            bool isShareSkillPage = Save.Displayed;
-            Assert.IsTrue(isShareSkillPage);
+            return Save.Displayed;
+
         }
 
 
@@ -276,7 +282,7 @@ namespace Mars.Pages
 
         public void SelectActive(string active)
         {
-            if (acive == "Active")
+            if (active == "Active")
             {
                 Active.Click();
             }

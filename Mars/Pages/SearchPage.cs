@@ -30,6 +30,8 @@ namespace Mars.Pages
         {
             signIn.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
             ClickSearchIcon();
+            bool isSearchPage = ValidateSearchPage();
+            Assert.IsTrue(isSearchPage);
             EnterSearchSkill();
             ClickEnter();
             bool isSearchResult = ValidateSearchResult();
@@ -41,6 +43,8 @@ namespace Mars.Pages
         {
             signIn.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
             ClickSearchIcon();
+            bool isSearchPage = ValidateSearchPage();
+            Assert.IsTrue(isSearchPage);
             ClickOnline();
             EnterSearchSkill();
             ClickEnter();
@@ -51,6 +55,13 @@ namespace Mars.Pages
         {
             //click search icon
             SearchIcon.Click();
+        }
+
+        public bool ValidateSearchPage()
+        {
+            Wait.ElementExists(driver, "XPath", "//*[@id='service-search-section']/div[2]/div/section/div/div[1]/div[5]/button[1]", 20);
+            return Online.Displayed;
+
         }
 
         public void EnterSearchSkill()

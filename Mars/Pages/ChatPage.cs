@@ -13,10 +13,12 @@ namespace Mars.Pages
         private readonly ServiceDetailPage serviceDetailPageObj;
 
         //page factory design pattern
+        IWebElement Chat => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/div[1]/div[2]/div/a[1]"));
+        IWebElement SearchBox => driver.FindElement(By.XPath("//*[@id='chatRoomContainer']/div/div[1]/div/div[1]/input"));
         IWebElement ChatTextBox => driver.FindElement(By.XPath("//*[@id='chatTextBox']"));
         IWebElement Send => driver.FindElement(By.XPath("//*[@id='btnSend']"));
         IWebElement SentMessage => driver.FindElement(By.XPath("//*[text()='Hello I want to exchange my skill']"));
-
+        
         //Create a Constructor
         public ChatPage(IWebDriver driver)
         {
@@ -30,13 +32,20 @@ namespace Mars.Pages
         {
             searchPageObj.SearchSkillsByAllCategories();
             searchPageObj.ClickSearchedSkill();
-            serviceDetailPageObj.ValidateYouAreAtServiceDetailPage();
-            serviceDetailPageObj.ClickChat();
+            bool isServiceDetailPage = serviceDetailPageObj.ValidateYouAreAtServiceDetailPage();
+            Assert.IsTrue(isServiceDetailPage);
+            serviceDetailPageObj.ClickChatButton();
             ValidateYouAreInChatRoom();
             EnterChatMessage();
             ClickSend();
             bool isMessageSent = ValidateMessageSent();
             Assert.IsTrue(isMessageSent);
+        }
+
+        public void ClickChat()
+        {
+            //click chat item
+            Chat.Click();
         }
 
         public void EnterChatMessage()
@@ -51,11 +60,18 @@ namespace Mars.Pages
             Send.Click();
         }
 
-        public void ValidateYouAreInChatRoom()
+        public void EnterSellerName()
+        {
+            //enter message in chat text box
+            SearchBox.SendKeys(ExcelLibHelper.ReadData(1, "SellerName"));
+
+        }
+
+        public bool ValidateYouAreInChatRoom()
         {
             Wait.ElementExists(driver, "XPath", "//*[@id='chatTextBox']", 10);
-            bool isChatRoom = ChatTextBox.Displayed;
-            Assert.IsTrue(isChatRoom);
+            return ChatTextBox.Displayed;
+            
         }
 
         public bool ValidateMessageSent()

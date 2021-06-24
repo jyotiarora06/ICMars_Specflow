@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Mars.Utilities;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -32,7 +33,8 @@ namespace Mars.Pages
         {
             signIn.Login(ExcelLibHelper.ReadData(1, "Email"), ExcelLibHelper.ReadData(1, "Pwd"));
             ClickChangePassword();
-            ValidateYouAreAtChangePasswordPage();
+            bool isChangePasswordPage = ValidateYouAreAtChangePasswordPage();
+            Assert.IsTrue(isChangePasswordPage);
             EnterData();
             ClickSave();
             bool isPasswordChanged = ValidateSuccessMessage();
@@ -48,19 +50,18 @@ namespace Mars.Pages
             //click Hi username
             Username.Click();
 
-            Wait.ElementExists(driver, "XPath", "//*[@id='account-profile-section']/div/div[1]/div[2]/div/span/div/a[2]", 5000);
-           
+            //Wait.ElementExists(driver, "XPath", "//*[@id='account-profile-section']/div/div[1]/div[2]/div/span/div/a[2]", 5000);
+            Thread.Sleep(200);
             //click Change Password menu item
             ChangePasswordItem.Click();
 
         }
 
-        public void ValidateYouAreAtChangePasswordPage()
+        public bool ValidateYouAreAtChangePasswordPage()
         {
             Wait.ElementExists(driver, "XPath", "/html/body/div[4]/div/div[2]/form/div[4]/button", 200);
-            bool isChangePasswordPage = Save.Displayed;
-            Assert.IsTrue(isChangePasswordPage);
-           
+            return Save.Displayed;
+
         }
 
         public void EnterData()
@@ -96,7 +97,8 @@ namespace Mars.Pages
 
         public bool ValidateSuccessMessage()
         {
-            Wait.ElementExists(driver, "XPath", "/html/body/div[1]/div", 1000);
+            Thread.Sleep(200);
+            Wait.ElementExists(driver, "XPath", "/html/body/div[1]/div",10 );
             
             //validate password changed message is displayed
             if (Message.Text == ExcelLibHelper.ReadData(1, "PasswordChangeMessage"))

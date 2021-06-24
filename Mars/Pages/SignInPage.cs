@@ -32,11 +32,11 @@ namespace Mars.Pages
 
         }
 
-        public void ValidateYouAreAtLoginPage()
+        public bool ValidateYouAreAtLoginPage()
         {
             Wait.ElementExists(driver, "XPath", "/html/body/div[2]/div/div/div[1]/div/div[4]", 100);
-            bool isLoginPage= LoginButton.Displayed;
-            Assert.IsTrue(isLoginPage);
+            return LoginButton.Displayed;
+            
         }
 
         public void EnterEmailAddressAndPassword(string emailAddressValue, string PasswordValue)
@@ -77,7 +77,8 @@ namespace Mars.Pages
         public void Login(string emailAddress,string password)
         {
             ClickSignIn();
-            ValidateYouAreAtLoginPage();
+            bool isLoginPage = ValidateYouAreAtLoginPage();
+            Assert.IsTrue(isLoginPage);
             EnterEmailAddressAndPassword(emailAddress,password);
             ClickLoginButton();
             bool isLoggedIn = ValidateYouAreLoggedInSuccessfully();

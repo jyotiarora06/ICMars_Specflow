@@ -10,8 +10,6 @@ namespace Mars.Pages
     {
         private IWebDriver driver;
         private readonly ShareSkillPage shareSkill;
-        private SignInPage signIn;
-        private bool isProfilePage;
 
         //page factory design pattern
         IWebElement Message => driver.FindElement(By.XPath("/html/body/div/div"));
@@ -19,7 +17,6 @@ namespace Mars.Pages
         IWebElement No => driver.FindElement(By.XPath("/html/body/div[2]/div/div[3]/button[1]"));
         IWebElement Yes => driver.FindElement(By.XPath("/html/body/div[2]/div/div[3]/button[2]"));
         IWebElement DeletePopup => driver.FindElement(By.XPath(" /html/body/div[2]/div/div[1]"));
-        IWebElement ManageListings => driver.FindElement(By.XPath("/html/body/div/div/section[1]/div/a[3]"));
         IWebElement UpdateIcon => driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/div[1]/table/tbody/tr[1]/td[8]/div/button[2]/i"));
         IWebElement UpdatedTitle => driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/div[1]/table/tbody/tr[1]/td[3]"));
         IWebElement UpdatedDescription => driver.FindElement(By.XPath("//*[@id='listing-management-section']/div[2]/div[1]/div[1]/table/tbody/tr[1]/td[4]"));
@@ -45,36 +42,24 @@ namespace Mars.Pages
         {
             this.driver = driver;
             shareSkill = new ShareSkillPage(driver);
-            signIn = new SignInPage(driver);
-        }
-
-
-        private bool ExistsElement()
-        {
-            try
-            {
-                driver.FindElement(By.XPath("/html/body/div/div/section[1]/div/a[3]"));
-             
-            }
-            catch (NoSuchElementException)
-            {
-                return false;
-            }
-            return true;
         }
 
         //updating service listing details
         public void EditServiceListing()
         {
-            signIn.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
-            isProfilePage = ExistsElement();
-            if (isProfilePage == true)
-            {
-                ClickManageListings();
-            }
-         
+            shareSkill.CreateServiceListing();
+            bool isManageListingsPage = ValidateYouAreAtManageListingsPage();
+            Assert.IsTrue(isManageListingsPage);
             ClickUpdateIcon();
             shareSkill.ValidateYouAreAtShareSkillPage();
+            EnterEditData();
+            shareSkill.ClickSave();
+            bool isServiceUpdated = ValidateServiceUpdatedSuccessfully();
+            Assert.IsTrue(isServiceUpdated);
+        }
+
+        public void EnterEditData()
+        {
             shareSkill.EnterTitle(editTitle);
             shareSkill.EnterDescription(editDescription);
             shareSkill.SelectCategory(editCategory);
@@ -86,21 +71,14 @@ namespace Mars.Pages
             shareSkill.EnterEndDate(editDaysToStartDate, editDaysToEndDate);
             shareSkill.SelectSkillTrade(editSkillTrade, editSkillExchangeTag, editCreditServiceCharge);
             shareSkill.SelectActive(editAcive);
-            shareSkill.ClickSave();
-            bool isServiceUpdated = ValidateServiceUpdatedSuccessfully();
-            Assert.IsTrue(isServiceUpdated);
         }
 
         //deleting service listing
         public void DeleteServiceListing()
         {
-            signIn.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
-            isProfilePage = ExistsElement();
-            if (isProfilePage == true)
-            {
-                ClickManageListings();
-            }
-           
+            shareSkill.CreateServiceListing();
+            bool isManageListingsPage = ValidateYouAreAtManageListingsPage();
+            Assert.IsTrue(isManageListingsPage);
             ClickRemoveIcon();
             ValidateDeletePopup();
             ClickYes();
@@ -114,18 +92,17 @@ namespace Mars.Pages
             RemoveIcon.Click();
         }
 
-        public void ClickManageListings()
-        {
-            Wait.ElementExists(driver, "XPath", "/html/body/div/div/section[1]/div/a[3]", 100);
-            ManageListings.Click();
-        }
-       
-
         public void ValidateDeletePopup()
         {
             Wait.ElementExists(driver, "XPath", "/html/body/div[2]/div/div[3]/button[2]", 20);
             bool isDeletePopup = DeletePopup.Displayed;
             Assert.IsTrue(isDeletePopup);
+        }
+
+        public bool ValidateYouAreAtManageListingsPage()
+        {
+            Wait.ElementExists(driver, "XPath", "//*[@id='listing-management-section']/div[2]/div[1]/div[1]/table/tbody/tr[1]/td[8]/div/button[2]/i", 50);
+            return UpdateIcon.Displayed;
         }
 
         public void ClickYes()

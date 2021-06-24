@@ -18,7 +18,9 @@ namespace Mars.Pages
         IWebElement NotificationsText => driver.FindElement(By.XPath("//*[@id='notification-section']/div[2]/div/div/div[3]/div[2]/a/h1"));
         IWebElement LoadMore => driver.FindElement(By.XPath("//*[@id='notification-section']/div[2]/div/div/div[3]/div[2]/span/span/div/div[6]/div/center/a"));
         IWebElement ShowLess => driver.FindElement(By.XPath("//*[@id='notification-section']/div[2]/div/div/div[3]/div[2]/span/span/div/div/div[1]/center/a"));
-        IWebElement NotificationCheckBox => driver.FindElement(By.XPath("//*[@id='notification-section']/div[2]/div/div/div[3]/div[2]/span/span/div/div[1]/div/div/div[3]/input"));
+        IWebElement CheckBoxOne => driver.FindElement(By.XPath("//*[@id='notification-section']/div[2]/div/div/div[3]/div[2]/span/span/div/div[1]/div/div/div[3]/input"));
+        IWebElement CheckBoxTwo => driver.FindElement(By.XPath("//*[@id='notification-section']/div[2]/div/div/div[3]/div[2]/span/span/div/div[2]/div/div/div[3]/input"));
+        IWebElement CheckBoxSix => driver.FindElement(By.XPath("//*[@id='notification-section']/div[2]/div/div/div[3]/div[2]/span/span/div/div[6]/div/div/div[3]/input"));
         IWebElement SelectAll => driver.FindElement(By.XPath("//*[@id='notification-section']/div[2]/div/div/div[3]/div[1]/div[1]"));
         IWebElement UnselectAll => driver.FindElement(By.XPath("//*[@id='notification-section']/div[2]/div/div/div[3]/div[1]/div[2]"));
         IWebElement DeleteSelection => driver.FindElement(By.XPath("//*[@id='notification-section']/div[2]/div/div/div[3]/div[1]/div[3]"));
@@ -35,17 +37,41 @@ namespace Mars.Pages
         public void Notifications()
         {
             SignIn.Login(ExcelLibHelper.ReadData(1, "EmailAddress"), ExcelLibHelper.ReadData(1, "Password"));
+
             ClickDashboard();
-            ValidateYouAreAtNotificationPage();
+            bool isNotificationPage = ValidateYouAreAtNotificationPage();
+            Assert.IsTrue(isNotificationPage); 
+
             ClickLoadMore();
+            bool isMoreNotifications = ValidateMoreNotificationsLoaded();
+            Assert.IsTrue(isMoreNotifications);
+
             ClickShowLess();
+            bool isLessNotifications = ValidateLessNotificationsDisplayed();
+            Assert.IsTrue(isLessNotifications);
+
             SelectNotification();
+            bool isSelected = ValidateNotificationSelected();
+            Assert.IsTrue(isSelected);
+
             UnselectNotification();
+            bool isUnselected = ValidateNotificationUnselected();
+            Assert.IsTrue(isUnselected);
+
             ClickSelectAll();
+            bool isAllSelected = ValidateAllNotificationsSelected();
+            Assert.IsTrue(isAllSelected);
+
             ClickUnselectAll();
+            bool isAllUnselected = ValidateAllNotificationsUnselected();
+            Assert.IsTrue(isAllUnselected);
+
+            SelectNotification();
             ClickMarkSelectionAsRead();
             bool isNotificationMarked = ValidateMessage(ExcelLibHelper.ReadData(1, "NotificationMessage"));
             Assert.IsTrue(isNotificationMarked);
+
+            SelectNotification();
             ClickDeleteSelection();
             bool isNotificationDeleted = ValidateMessage(ExcelLibHelper.ReadData(1, "NotificationMessage"));
             Assert.IsTrue(isNotificationDeleted);
@@ -75,9 +101,9 @@ namespace Mars.Pages
         //selecting a notification
         public void SelectNotification()
         {
-            if (!NotificationCheckBox.Selected)
+            if (!CheckBoxOne.Selected)
             {
-                NotificationCheckBox.Click();
+                CheckBoxOne.Click();
             }
            
         }
@@ -85,9 +111,9 @@ namespace Mars.Pages
         //unselecting a notification
         public void UnselectNotification()
         {
-            if (NotificationCheckBox.Selected)
+            if (CheckBoxOne.Selected)
             {
-                NotificationCheckBox.Click();
+                CheckBoxOne.Click();
             }
         }
 
@@ -106,22 +132,84 @@ namespace Mars.Pages
         //mark selected notification as read
         public void ClickMarkSelectionAsRead()
         {
-            SelectNotification();
             MarkSelectionAsRead.Click();
         }
 
         //deleting selected notification
         public void ClickDeleteSelection()
         {
-            SelectNotification();
             DeleteSelection.Click();
         }
 
-        public void ValidateYouAreAtNotificationPage()
+        public bool ValidateYouAreAtNotificationPage()
         {
             Wait.ElementExists(driver, "XPath", "//*[@id='notification-section']/div[2]/div/div/div[3]/div[2]/a/h1", 20);
-            bool isNotificationPage = NotificationsText.Displayed;
-            Assert.IsTrue(isNotificationPage);
+            return NotificationsText.Displayed;
+
+        }
+
+        public bool ValidateMoreNotificationsLoaded()
+        {
+            Wait.ElementExists(driver, "XPath", "//*[@id='notification-section']/div[2]/div/div/div[3]/div[2]/span/span/div/div[6]/div/div/div[3]/input", 20);
+            return CheckBoxSix.Displayed;
+
+        }
+
+        public bool ValidateLessNotificationsDisplayed()
+        {
+            try
+            {
+                driver.FindElement(By.XPath("//*[@id='notification-section']/div[2]/div/div/div[3]/div[2]/span/span/div/div[6]/div/div/div[3]/input"));
+
+            }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
+            return true;
+
+        }
+
+        public bool ValidateNotificationSelected()
+        {
+            Wait.ElementExists(driver, "XPath", "//*[@id='notification-section']/div[2]/div/div/div[3]/div[2]/span/span/div/div[1]/div/div/div[3]/input", 20);
+            return CheckBoxOne.Selected;
+          
+        }
+
+        public bool ValidateNotificationUnselected()
+        {
+            Wait.ElementExists(driver, "XPath", "//*[@id='notification-section']/div[2]/div/div/div[3]/div[2]/span/span/div/div[1]/div/div/div[3]/input", 20);
+            return !CheckBoxOne.Selected;
+
+        }
+
+        public bool ValidateAllNotificationsSelected()
+        {
+            Wait.ElementExists(driver, "XPath", "//*[@id='notification-section']/div[2]/div/div/div[3]/div[2]/span/span/div/div[1]/div/div/div[3]/input", 20);
+            if (CheckBoxOne.Selected && CheckBoxTwo.Selected)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        public bool ValidateAllNotificationsUnselected()
+        {
+            Wait.ElementExists(driver, "XPath", "//*[@id='notification-section']/div[2]/div/div/div[3]/div[2]/span/span/div/div[1]/div/div/div[3]/input", 20);
+            if (!CheckBoxOne.Selected && !CheckBoxTwo.Selected)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
         }
 
         public bool ValidateMessage(string message)

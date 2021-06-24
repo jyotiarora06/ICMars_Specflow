@@ -9,9 +9,9 @@
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
     <PackageReference Include="Selenium.Support" Version="3.141.0" />
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="91.0.4472.10100" />
-    <PackageReference Include="SpecFlow" Version="3.8.14" />
-    <PackageReference Include="SpecFlow.NUnit" Version="3.8.14" />
-    <PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.8.14" />
+    <PackageReference Include="SpecFlow" Version="3.9.8" />
+    <PackageReference Include="SpecFlow.NUnit" Version="3.9.8" />
+    <PackageReference Include="SpecFlow.Tools.MsBuild.Generation" Version="3.9.8" />
     <PackageReference Include="Microsoft.NETCore.App" Version="2.2.8">
       <AllowExplicitVersion>true</AllowExplicitVersion>
     </PackageReference>
@@ -36,25 +36,47 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>ServiceListingPage.feature.cs</LastGenOutput>
     </SpecFlowFeatureFiles>
+    <SpecFlowFeatureFiles Update="FeatureFiles\SignUpPage.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SignUpPage.feature.cs</LastGenOutput>
+    </SpecFlowFeatureFiles>
+    <SpecFlowFeatureFiles Update="FeatureFiles\SearchPage.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>SearchPage.feature.cs</LastGenOutput>
+    </SpecFlowFeatureFiles>
+    <SpecFlowFeatureFiles Update="FeatureFiles\ShareSkillPage.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ShareSkillPage.feature.cs</LastGenOutput>
+    </SpecFlowFeatureFiles>
+    <SpecFlowFeatureFiles Update="FeatureFiles\NotificationsPage.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>NotificationsPage.feature.cs</LastGenOutput>
+    </SpecFlowFeatureFiles>
+    <SpecFlowFeatureFiles Update="FeatureFiles\ChatPage.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ChatPage.feature.cs</LastGenOutput>
+    </SpecFlowFeatureFiles>
+    <SpecFlowFeatureFiles Update="FeatureFiles\ManageRequests.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>ManageRequests.feature.cs</LastGenOutput>
+    </SpecFlowFeatureFiles>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\" />
     <Folder Include="Utilities\" />
-    <Folder Include="Tests\" />
-    <Folder Include="Config\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Config\AutomationSettings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>AutomationSettings.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="AutomationSettings.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Config\AutomationSettings.Designer.cs">
-      <DependentUpon>AutomationSettings.resx</DependentUpon>
+    <Compile Update="FeatureFiles\SearchPage.feature.cs">
+      <DependentUpon>SearchPage.feature</DependentUpon>
+    </Compile>
+    <Compile Update="FeatureFiles\ShareSkillPage.feature.cs">
+      <DependentUpon>ShareSkillPage.feature</DependentUpon>
+    </Compile>
+    <Compile Update="FeatureFiles\NotificationsPage.feature.cs">
+      <DependentUpon>NotificationsPage.feature</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>

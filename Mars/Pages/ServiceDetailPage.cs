@@ -25,14 +25,14 @@ namespace Mars.Pages
             searchPageObj = new SearchPage(driver);
         }
 
-        public void ValidateYouAreAtServiceDetailPage()
+        public bool ValidateYouAreAtServiceDetailPage()
         {
             Wait.ElementExists(driver, "XPath", "//*[@id='service-detail-section']/div[2]/div/div[2]/div[2]/div[1]/div/div[1]/div/a", 100);
-            bool isServicePage = ChatButton.Displayed;
-            Assert.IsTrue(isServicePage);
+            return ChatButton.Displayed;
+            
         }
 
-        public void ClickChat()
+        public void ClickChatButton()
         {
             //click chat button
             ChatButton.Click();
@@ -76,7 +76,8 @@ namespace Mars.Pages
         {
             searchPageObj.SearchSkillsByAllCategories();
             searchPageObj.ClickSearchedSkill();
-            ValidateYouAreAtServiceDetailPage();
+            bool isServicePage = ValidateYouAreAtServiceDetailPage();
+            Assert.IsTrue(isServicePage);
             EnterMessageToSeller();
             ClickRequest();
             ClickYes();
