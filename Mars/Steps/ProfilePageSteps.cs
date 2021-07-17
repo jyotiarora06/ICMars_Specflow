@@ -389,7 +389,7 @@ namespace Mars.Steps
         [Then("Availability updated message should be displayed")]
         public void ThenAvailabilityUpdatedMessageDisplayed()
         {
-            bool IsAvailabilityUpdatedMessage = profilePage.ValidateSuccessMessage(ExcelLibHelper.ReadData(1, "AvailabilityMessage"));
+            bool IsAvailabilityUpdatedMessage = profilePage.ValidateSuccessMessage();
             Console.WriteLine("Availability updated message should be displayed");
             Assert.IsTrue(IsAvailabilityUpdatedMessage);
         }
@@ -397,7 +397,7 @@ namespace Mars.Steps
         [Then("Hours updated message should be displayed")]
         public void ThenHoursUpdatedMessageDisplayed()
         {
-            bool IsHoursUpdatedMessage = profilePage.ValidateSuccessMessage(ExcelLibHelper.ReadData(1, "HoursMessage"));
+            bool IsHoursUpdatedMessage = profilePage.ValidateSuccessMessage();
             Console.WriteLine("Hours updated message should be displayed");
             Assert.IsTrue(IsHoursUpdatedMessage);
         }
@@ -405,7 +405,7 @@ namespace Mars.Steps
         [Then("Earn Target updated message should be displayed")]
         public void ThenEarnTargetUpdatedMessageDisplayed()
         {
-            bool IsEarnTargetUpdatedMessage = profilePage.ValidateSuccessMessage(ExcelLibHelper.ReadData(1, "EarnTargetMessage"));
+            bool IsEarnTargetUpdatedMessage = profilePage.ValidateSuccessMessage();
             Console.WriteLine("Earn Target updated message should be displayed");
             Assert.IsTrue(IsEarnTargetUpdatedMessage);
         }

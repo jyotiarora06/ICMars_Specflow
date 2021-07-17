@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using AventStack.ExtentReports;
 using AventStack.ExtentReports.Gherkin.Model;
@@ -10,14 +11,16 @@ using static Mars.Utilities.CommonMethods;
 namespace Mars.Hooks
 {
     [Binding]
+   
     public class GeneralHooks : Driver
     {
+        private CommonMethods commonMethods;
         private static ScenarioContext scenarioContextObject;
         private static ExtentReports extent;
         private static ExtentHtmlReporter hTMLReporter;
         private static ExtentTest featureName;
         private static ExtentTest scenario;
-        private CommonMethods commonMethods;
+        
        
 
         [BeforeTestRun]
@@ -152,10 +155,9 @@ namespace Mars.Hooks
         public static void AfterTestRun()
         {
             extent.Flush();
-        }
+            File.Move("/Users/jyotimadan/Documents/Projects/CSharpProject/Mars.Specflow/ExtentReport/index.html", "/Users/jyotimadan/Documents/Projects/CSharpProject/Mars.Specflow/ExtentReport/ExtentReport_" + DateTime.Now.ToString("MMM-dd-yyyy hh-mm-ss") + ".html");
 
-
-        
+        } 
         
     }
 }

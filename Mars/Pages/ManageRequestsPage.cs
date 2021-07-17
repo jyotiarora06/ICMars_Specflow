@@ -13,19 +13,20 @@ namespace Mars.Pages
         private SignInPage signIn;
 
         //page factory design pattern
-        IWebElement ManageRequests => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[1]/div/div[1]"));
-        IWebElement SentRequests => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[1]/div/div[1]/div/a[2]"));
-        IWebElement ReceivedRequests => driver.FindElement(By.XPath("//*[@id='account-profile-section']/div/section[1]/div/div[1]/div/a[1]"));
-        IWebElement SentRequestsHeading => driver.FindElement(By.XPath("//*[@id='sent-request-section']/div[2]/h2"));
-        IWebElement ReceivedRequestsHeading => driver.FindElement(By.XPath("//*[@id='received-request-section']/div[2]/h2"));
-        IWebElement Withdraw => driver.FindElement(By.XPath("//*[@id='sent-request-section']/div[2]/div[1]/table/tbody/tr[1]/td[8]/button"));
-        IWebElement Completed => driver.FindElement(By.XPath("//*[@id='sent-request-section']/div[2]/div[1]/table/tbody/tr[2]/td[8]/button"));
-        IWebElement Accept => driver.FindElement(By.XPath("//*[@id='received-request-section']/div[2]/div[1]/table/tbody/tr[1]/td[8]/button[1]"));
-        IWebElement Decline => driver.FindElement(By.XPath("//*[@id='received-request-section']/div[2]/div[1]/table/tbody/tr[2]/td[8]/button[2]"));
-        IWebElement WithdrawnRequestStatus => driver.FindElement(By.XPath("//*[@id='sent-request-section']/div[2]/div[1]/table/tbody/tr[1]/td[5]"));
-        IWebElement CompletedRequestStatus => driver.FindElement(By.XPath("//*[@id='sent-request-section']/div[2]/div[1]/table/tbody/tr[2]/td[5]"));
-        IWebElement AcceptedRequestStatus => driver.FindElement(By.XPath("//*[@id='received-request-section']/div[2]/div[1]/table/tbody/tr[1]/td[5]"));
-        IWebElement DeclinedRequestStatus => driver.FindElement(By.XPath("//*[@id='received-request-section']/div[2]/div[1]/table/tbody/tr[2]/td[5]"));
+        
+        IWebElement ReceivedRequests => driver.FindElement(By.XPath("//a[contains(text(),'Received Requests')]"));
+        IWebElement SentRequests => driver.FindElement(By.XPath("//a[contains(text(),'Sent Requests')]"));
+        IWebElement SentRequestsHeading => driver.FindElement(By.XPath("//h2[contains(text(),'Sent Requests')]"));
+        IWebElement ReceivedRequestsHeading => driver.FindElement(By.XPath("//h2[contains(text(),'Received Requests')]"));
+        IWebElement Withdraw => driver.FindElement(By.XPath("//tr[1]//button[contains(text(),'Withdraw')]"));
+        IWebElement Completed => driver.FindElement(By.XPath("//tr[2]//button[contains(text(),'Completed')]"));
+        IWebElement Accept => driver.FindElement(By.XPath("//tr[2]//button[contains(text(),'Accept')]"));
+        IWebElement Decline => driver.FindElement(By.XPath("//tr[1]//button[contains(text(),'Decline')]"));
+        IWebElement ManageRequests => driver.FindElement(By.XPath("//div[contains(text(),'Manage Requests')]"));
+        IWebElement WithdrawnRequestStatus => driver.FindElement(By.XPath("//tr[1]//td[contains(text(),'Withdrawn')]"));
+        IWebElement CompletedRequestStatus => driver.FindElement(By.XPath("//tr[2]//td[contains(text(),'Completed')]"));
+        IWebElement AcceptedRequestStatus => driver.FindElement(By.XPath("//tr[2]//td[contains(text(),'Accepted')]"));
+        IWebElement DeclinedRequestStatus => driver.FindElement(By.XPath("//tr[1]//td[contains(text(),'Declined')]"));
 
         //Create a Constructor
         public ManageRequestsPage(IWebDriver driver)
@@ -93,7 +94,7 @@ namespace Mars.Pages
         public void ClickManageRequests()
         {
             //click manage requests
-            Wait.ElementExists(driver, "XPath", "//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/form/div[2]/div/div[2]/div/table/thead/tr/th[3]/div", 500);
+            Wait.ElementExists(driver, "XPath", "//div[contains(text(),'Manage Requests')]", 50);
             ManageRequests.Click();
             Thread.Sleep(500);
            
@@ -113,49 +114,49 @@ namespace Mars.Pages
 
         public void ClickAccept()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='received-request-section']/div[2]/div[1]/table/tbody/tr[1]/td[8]/button[1]", 50);
+            Wait.ElementExists(driver, "XPath", "//tr[2]//button[contains(text(),'Accept')]", 50);
             //click accept
             Accept.Click();
         }
 
         public void ClickDecline()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='received-request-section']/div[2]/div[1]/table/tbody/tr[2]/td[8]/button[2]", 50);
+            Wait.ElementExists(driver, "XPath", "//tr[1]//button[contains(text(),'Decline')]", 50);
             //click decline
             Decline.Click();
         }
 
         public void ClickWithdraw()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='sent-request-section']/div[2]/div[1]/table/tbody/tr[1]/td[8]/button", 50);
+            Wait.ElementExists(driver, "XPath", "//tr[1]//button[contains(text(),'Withdraw')]", 50);
             //Click withdraw 
             Withdraw.Click();
         }
 
         public void ClickCompleted()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='sent-request-section']/div[2]/div[1]/table/tbody/tr[2]/td[8]/button", 50);
+            Wait.ElementExists(driver, "XPath", "//tr[2]//button[contains(text(),'Completed')]", 50);
             //Click completed 
             Completed.Click();
         }
 
         public bool ValidateYouAreAtSentRequestsPage()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='sent-request-section']/div[2]/h2", 500);
+            Wait.ElementExists(driver, "XPath", "//h2[contains(text(),'Sent Requests')]", 50);
             return SentRequestsHeading.Displayed;
         }
 
 
         public bool ValidateYouAreAtReceivedRequestsPage()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='received-request-section']/div[2]/h2", 500);
+            Wait.ElementExists(driver, "XPath", "//h2[contains(text(),'Received Requests')]", 50);
             return ReceivedRequestsHeading.Displayed;
         }
 
         public bool ValidateAcceptedRequestStatus()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='received-request-section']/div[2]/div[1]/table/tbody/tr[1]/td[5]", 200);
-           
+            Wait.ElementExists(driver, "XPath", "//tr[2]//td[contains(text(),'Accepted')]", 50);
+
             if (AcceptedRequestStatus.Text == ExcelLibHelper.ReadData(1, "AcceptReceivedRequest"))
             {
                 return true;
@@ -169,7 +170,7 @@ namespace Mars.Pages
 
         public bool ValidateDeclinedRequestStatus()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='received-request-section']/div[2]/div[1]/table/tbody/tr[2]/td[5]", 200);
+            Wait.ElementExists(driver, "XPath", "//tr[1]//td[contains(text(),'Declined')]", 50);
 
             if (DeclinedRequestStatus.Text == ExcelLibHelper.ReadData(1, "DeclineReceivedRequest"))
             {
@@ -184,7 +185,7 @@ namespace Mars.Pages
 
         public bool ValidateWithdrawnRequestStatus()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='sent-request-section']/div[2]/div[1]/table/tbody/tr[1]/td[5]", 200);
+            Wait.ElementExists(driver, "XPath", "//tr[1]//td[contains(text(),'Withdrawn')]", 50);
 
             if (WithdrawnRequestStatus.Text == ExcelLibHelper.ReadData(1, "WithdrawSentRequest"))
             {
@@ -199,7 +200,7 @@ namespace Mars.Pages
 
         public bool ValidateCompletedRequestStatus()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='sent-request-section']/div[2]/div[1]/table/tbody/tr[2]/td[5]", 200);
+            Wait.ElementExists(driver, "XPath", "//tr[2]//td[contains(text(),'Completed')]", 50);
 
             if (CompletedRequestStatus.Text == ExcelLibHelper.ReadData(1, "CompleteSentRequest"))
             {

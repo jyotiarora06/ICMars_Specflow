@@ -7,7 +7,8 @@ Scenario: I am able to Load More notifications
 
 Scenario: I am able to Show Less notifications
 	Given I am at the Notifications Page
-	When I click Show Less
+	When I click Load More
+	And I click Show Less
 	Then Less notifications should be displayed
 
 Scenario: I am able to select a notification

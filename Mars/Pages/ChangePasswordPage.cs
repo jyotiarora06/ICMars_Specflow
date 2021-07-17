@@ -13,13 +13,15 @@ namespace Mars.Pages
         private SignInPage signIn;
 
         //page factory design pattern
-        IWebElement Username => driver.FindElement(By.XPath("/html/body/div/div/div[1]/div[2]/div/span"));
-        IWebElement ChangePasswordItem => driver.FindElement(By.XPath("/html/body/div/div/div[1]/div[2]/div/span/div/a[2]"));
-        IWebElement CurrentPassword => driver.FindElement(By.XPath("/html/body/div[4]/div/div[2]/form/div[1]/input"));
-        IWebElement NewPassword => driver.FindElement(By.XPath("/html/body/div[4]/div/div[2]/form/div[2]/input"));
-        IWebElement ConfirmPassword => driver.FindElement(By.XPath("/html/body/div[4]/div/div[2]/form/div[3]/input"));
-        IWebElement Save => driver.FindElement(By.XPath("/html/body/div[4]/div/div[2]/form/div[4]/button"));
-        IWebElement Message => driver.FindElement(By.XPath("/html/body/div[1]/div"));
+     
+        IWebElement Username => driver.FindElement(By.XPath("//span[contains(text(),'Hi')]"));
+        IWebElement ChangePasswordItem => driver.FindElement(By.XPath("//a[text()='Change Password']"));
+        IWebElement CurrentPassword => driver.FindElement(By.XPath("//input[@name='oldPassword']"));
+        IWebElement NewPassword => driver.FindElement(By.XPath("//input[@name='newPassword']"));
+        IWebElement ConfirmPassword => driver.FindElement(By.XPath("//input[@name='confirmPassword']"));
+        IWebElement Save => driver.FindElement(By.XPath("//button[@class='ui button ui teal button' and text()='Save']"));
+        IWebElement Message => driver.FindElement(By.XPath("//div[contains(text(),'Password Changed Successfully')]"));
+
 
         //Create a Constructor
         public ChangePasswordPage(IWebDriver driver)
@@ -45,12 +47,11 @@ namespace Mars.Pages
        
         public void ClickChangePassword()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='account-profile-section']/div/section[2]/div/div/div/div[3]/div/div/div/h3", 5000);
+            Wait.ElementExists(driver, "XPath", "//span[contains(text(),'Hi')]", 50);
 
             //click Hi username
             Username.Click();
 
-            //Wait.ElementExists(driver, "XPath", "//*[@id='account-profile-section']/div/div[1]/div[2]/div/span/div/a[2]", 5000);
             Thread.Sleep(200);
             //click Change Password menu item
             ChangePasswordItem.Click();
@@ -59,7 +60,7 @@ namespace Mars.Pages
 
         public bool ValidateYouAreAtChangePasswordPage()
         {
-            Wait.ElementExists(driver, "XPath", "/html/body/div[4]/div/div[2]/form/div[4]/button", 200);
+            Wait.ElementExists(driver, "XPath", "//button[@class='ui button ui teal button' and text()='Save']", 100);
             return Save.Displayed;
 
         }
@@ -68,7 +69,7 @@ namespace Mars.Pages
         {
             try
             {
-                Wait.ElementExists(driver, "XPath", "/html/body/div[4]/div/div[2]/form/div[1]/input", 50);
+                Wait.ElementExists(driver, "XPath", "//input[@name='oldPassword']", 50);
                 //Enter current password
                 CurrentPassword.SendKeys(ExcelLibHelper.ReadData(1, "CurrentPassword"));
 
@@ -89,7 +90,7 @@ namespace Mars.Pages
         public void ClickSave()
         {
             //Click save button
-            Wait.ElementExists(driver, "XPath", "/html/body/div[4]/div/div[2]/form/div[4]/button", 500);
+            Wait.ElementExists(driver, "XPath", "//button[contains(text(),'Save')]", 50);
 
             Save.Click();
 
@@ -98,8 +99,8 @@ namespace Mars.Pages
         public bool ValidateSuccessMessage()
         {
             Thread.Sleep(200);
-            Wait.ElementExists(driver, "XPath", "/html/body/div[1]/div",10 );
-            
+            Wait.ElementExists(driver, "XPath", "//div[contains(text(),'Password Changed Successfully')]", 100);
+
             //validate password changed message is displayed
             if (Message.Text == ExcelLibHelper.ReadData(1, "PasswordChangeMessage"))
             {

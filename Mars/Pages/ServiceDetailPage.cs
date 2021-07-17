@@ -12,11 +12,11 @@ namespace Mars.Pages
         private SearchPage searchPageObj;
 
         //page factory design pattern
-        IWebElement ChatButton => driver.FindElement(By.XPath("//*[@id='service-detail-section']/div[2]/div/div[2]/div[2]/div[1]/div/div[1]/div/a"));
-        IWebElement Request => driver.FindElement(By.XPath("//*[@id='service-detail-section']/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div[3]"));
-        IWebElement MessageTextBox => driver.FindElement(By.XPath("//*[@id='service-detail-section']/div[2]/div/div[2]/div[2]/div[2]/div/div[2]/div/div[1]/textarea"));
-        IWebElement Yes => driver.FindElement(By.XPath("/html/body/div[4]/div/div[3]/button[1]"));
-        IWebElement Message => driver.FindElement(By.XPath("/html/body/div[1]/div"));
+        IWebElement ChatButton => driver.FindElement(By.XPath("//a[@class='ui teal button' and contains(text(),'Chat')]"));
+        IWebElement Request => driver.FindElement(By.XPath("//div[@class='ui teal  button' and contains(text(),'Request')]"));
+        IWebElement MessageTextBox => driver.FindElement(By.XPath("//textarea[@ placeholder ='I am interested in trading my cooking skills with your coding skills..']"));
+        IWebElement Yes => driver.FindElement(By.XPath("//button[contains(text(),'Yes')]"));
+        IWebElement Message => driver.FindElement(By.XPath("//div[contains(text(),'Request sent')]"));
 
         //Create a Constructor
         public ServiceDetailPage(IWebDriver driver)
@@ -27,7 +27,7 @@ namespace Mars.Pages
 
         public bool ValidateYouAreAtServiceDetailPage()
         {
-            Wait.ElementExists(driver, "XPath", "//*[@id='service-detail-section']/div[2]/div/div[2]/div[2]/div[1]/div/div[1]/div/a", 100);
+            Wait.ElementExists(driver, "XPath", "//a[@class='ui teal button' and contains(text(),'Chat')]", 100);
             return ChatButton.Displayed;
             
         }
@@ -59,7 +59,7 @@ namespace Mars.Pages
 
         public bool ValidateRequestSent()
         {
-            Wait.ElementExists(driver, "XPath", "/html/body/div[1]/div", 1000);
+            Wait.ElementExists(driver, "XPath", "//div[contains(text(),'Request sent')]", 10);
             //validate request is sent
             if (Message.Text == ExcelLibHelper.ReadData(1, "SentRequestMessage"))
             {

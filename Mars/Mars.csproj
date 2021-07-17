@@ -19,12 +19,12 @@
     <PackageReference Include="NUnit" Version="3.13.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
     <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0" />
-    <PackageReference Include="ExtentReports" Version="4.1.0" />
     <PackageReference Include="ExcelDataReader" Version="3.6.0" />
     <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
     <PackageReference Include="Selenium.WebDriver.GeckoDriver" Version="0.29.1" />
     <PackageReference Include="Selenium.Firefox.WebDriver" Version="0.27.0" />
+    <PackageReference Include="ExtentReports" Version="4.1.0" />
   </ItemGroup>
   <ItemGroup>
     <SpecFlowFeatureFiles Update="ProfilePage.feature">
@@ -77,6 +77,9 @@
     </Compile>
     <Compile Update="FeatureFiles\NotificationsPage.feature.cs">
       <DependentUpon>NotificationsPage.feature</DependentUpon>
+    </Compile>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="FeatureFiles\ManageRequests.feature.cs">
+      <DependentUpon>ManageRequests.feature</DependentUpon>
     </Compile>
   </ItemGroup>
 </Project>
